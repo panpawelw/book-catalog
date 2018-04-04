@@ -12,7 +12,10 @@
 	<br>
 	<br>
 	<h1 align='center' class='title'>Book catalog</h1>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="resources/js/app.js"></script>
+	<div align='center'>
+		<button class='testButton'>Test connection</button>
+	</div>
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+	<script src='resources/js/app.js'></script>
 </body>
 </html>
