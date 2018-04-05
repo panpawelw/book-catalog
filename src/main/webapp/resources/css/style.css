@@ -1,4 +1,12 @@
 @charset "UTF-8";
+
 .title {
-	color : green;
+	color: green;
+}
+
+.listContainer {
+	margin: auto;
+	text-align: center;
+	width: 50%;
+	border: 1px solid green;
 }

@@ -12,8 +12,8 @@
 	<br>
 	<br>
 	<h1 align='center' class='title'>Book catalog</h1>
-	<div align='center'>
-		<button class='testButton'>Test connection</button>
+	<div class='listContainer'>
+		<ul class='bookList'></ul>
 	</div>
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
 	<script src='resources/js/app.js'></script>

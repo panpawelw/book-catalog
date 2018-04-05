@@ -1,7 +1,8 @@
 $(document).ready(function(){
 	
-	function testConnection() {
-		$('.testButton').on('click', function(event){
+	var bookList = $('ul.bookList');
+	
+	function getBookList() {
 			var books;
 			$.ajax({
 				url: 'http://localhost:8080/Workshop_4and5/books/',
@@ -9,14 +10,16 @@ $(document).ready(function(){
 				type: 'GET',
 				dataType: 'json'})
 				.done(function(result){
-					alert(result[0].id + '\n' + result[0].isbn + '\n' + result[0].title +'\n' + result[0].author + '\n' + result[0].publisher + '\n' + result[0].type +
-							'\n' + result[1].id + '\n' + result[2].id);
-					})
+					bookList.empty();
+					for(var i=0;i<result.length;i++){
+						bookList.append('<li>' + result[i].id + '. "' + result[i].title + '" ' + result[i].author)
+						.append('<button class="edit">Edit</button><button class="delete">Delete</button>');
+					}
+				})
 				.fail(function(){alert('Error!')})
-				.always(function(){alert('Always!')});
-		});
+				.always(function(){});
 	}
 	
-	testConnection();
+	getBookList();
 	
 });
