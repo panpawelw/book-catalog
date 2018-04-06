@@ -1,31 +1,61 @@
 package pl.pjm77.app;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemoryBookService {
+public class MemoryBookService implements BookService{
 
-	private List<Book> list;
+	private Map<Long, Book> list;
+	private long nextId;
 	
 	public MemoryBookService() {
 	
-		list = new ArrayList<>();
-		list.add(new Book(1L, "9788324631766", "Thinking in Java.", "Bruce Eckel",
+		list = new HashMap<>();
+		long idCounter = getNextFreeId();
+		list.put(idCounter, new Book(idCounter, "9788324631766", "Thinking in Java.", "Bruce Eckel",
 				"Helion", "programming"));
-		list.add(new Book(2L, "9788324627738", "Rusz glowa, Java.",
+		idCounter = getNextFreeId();
+		list.put(idCounter, new Book(idCounter, "9788324627738", "Rusz glowa, Java.",
 				"Sierra Kathy, Bates Bert", "Helion", "programming"));
-		list.add(new Book(3L, "9780130819338", "Java 2. Podstawy.",
+		idCounter = getNextFreeId();
+		list.put(idCounter, new Book(idCounter, "9780130819338", "Java 2. Podstawy.",
 				"Cay Horstmann, Gary Cornell", "Helion", "programming"));
 	}
 
-	public List<Book> getList() {
-		return list;
+	private long getNextFreeId() {
+		nextId++;
+		return nextId;
 	}
 
-	public void setList(List<Book> list) {
-		this.list = list;
+	@Override
+	public void addBook(String idbn, String title, String Author, String publisher, String type) {
+		
+	}
+
+	@Override
+	public void updateBook(Book book) {
+		if(book!=null) {
+			
+		}
+	}
+
+	@Override
+	public void deleteBook(long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Book getById(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<Long, Book> getBooks() {
+		return list;
 	}
 }

@@ -5,8 +5,11 @@
 }
 
 .listContainer {
+	display: table;
 	margin: auto;
 	text-align: center;
-	width: 50%;
-	border: 1px solid green;
+}
+
+.bookList {
+	list-style-type: none;
 }

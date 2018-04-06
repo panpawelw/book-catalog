@@ -6,15 +6,15 @@ $(document).ready(function(){
 			var books;
 			$.ajax({
 				url: 'http://localhost:8080/Workshop_4and5/books/',
-				data: {books: books},
 				type: 'GET',
 				dataType: 'json'})
-				.done(function(result){
+				.done(function(books){
 					bookList.empty();
-					for(var i=0;i<result.length;i++){
-						bookList.append('<li>' + result[i].id + '. "' + result[i].title + '" ' + result[i].author)
-						.append('<button class="edit">Edit</button><button class="delete">Delete</button>');
+					for(book in books) {
+						bookList.append('<li> ' + books[book].id + ' "' + books[book].title + '" ' + books[book].author)
+						.append(('<button class="edit">edit</button><button class="delete">delete</button><div></div>'));
 					}
+					
 				})
 				.fail(function(){alert('Error!')})
 				.always(function(){});
