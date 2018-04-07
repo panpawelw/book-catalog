@@ -3,8 +3,10 @@ package pl.pjm77.app;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,9 +38,10 @@ public class BookController {
 				"Bruce Eckel","Helion","programming");
 	}
 	
-	@GetMapping("/delete")
-	public void deleteBook() {
-		System.out.println("delete!");
+	@DeleteMapping("/")
+	@ResponseBody
+	public void deleteBook(@RequestParam String bookId) {
+		System.out.println(bookId);
 	}
 	
 	@GetMapping("/edit")

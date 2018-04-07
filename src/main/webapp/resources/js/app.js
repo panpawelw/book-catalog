@@ -31,6 +31,11 @@ $(document).ready(function(){
 	
 	function deleteButtonClick(event){
 		alert('Delete ' + this.id);
+		$.ajax({
+			url: baseURL + this.id,
+			type: 'DELETE'})
+			.done(function(){alert ('Delete successful!');})
+		getBookList();
 	}
 	
 	$(document).on('click', '.add', addButtonClick);
