@@ -1,18 +1,19 @@
 $(document).ready(function(){
 	
+	var baseURL = 'http://localhost:8080/Workshop_4and5/books/';
 	var bookList = $('ul.bookList');
 	
 	function getBookList() {
 			var books;
 			$.ajax({
-				url: 'http://localhost:8080/Workshop_4and5/books/',
+				url: baseURL,
 				type: 'GET',
 				dataType: 'json'})
 				.done(function(books){
 					bookList.empty();
 					for(book in books) {
-						bookList.append('<li> ' + books[book].id + ' "' + books[book].title + '" ' + books[book].author)
-						.append(('<button class="edit">edit</button><button class="delete">delete</button><div></div>'));
+						bookList.append('<li id=' + books[book].id + '> ' + books[book].id + ' "' + books[book].title + '" ' + books[book].author)
+						.append('<button class="edit" id="' + books[book].id + '">edit</button><button class="delete" id="' + books[book].id + '">delete</button><div></div>');
 					}
 					
 				})
@@ -20,6 +21,21 @@ $(document).ready(function(){
 				.always(function(){});
 	}
 	
+	function addButtonClick(event){
+		alert('Add!');
+	}
+	
+	function editButtonClick(event){
+		alert('Edit ' + this.id);
+	}
+	
+	function deleteButtonClick(event){
+		alert('Delete ' + this.id);
+	}
+	
+	$(document).on('click', '.add', addButtonClick);
+	$(document).on('click', '.edit', editButtonClick);
+	$(document).on('click', '.delete', deleteButtonClick);
 	getBookList();
 	
 });

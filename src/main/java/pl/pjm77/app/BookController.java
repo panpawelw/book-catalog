@@ -35,4 +35,14 @@ public class BookController {
 		return new Book(1L,"9788324631766","Thinking in Java",
 				"Bruce Eckel","Helion","programming");
 	}
+	
+	@GetMapping("/delete")
+	public void deleteBook() {
+		System.out.println("delete!");
+	}
+	
+	@GetMapping("/edit")
+	public void editBook() {
+		System.out.println("edit!");
+	}
 }
