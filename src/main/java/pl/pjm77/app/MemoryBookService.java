@@ -44,8 +44,9 @@ public class MemoryBookService implements BookService{
 
 	@Override
 	public void deleteBook(long id) {
-		// TODO Auto-generated method stub
-		
+		if(id>0 && list.get(id)!=null) {
+			list.remove(id);
+		}
 	}
 
 	@Override

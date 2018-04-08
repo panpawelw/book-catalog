@@ -6,21 +6,24 @@ $(document).ready(function(){
 	function getBookList() {
 			var books;
 			$.ajax({
-				url: baseURL,
 				type: 'GET',
+				url: baseURL,
 				dataType: 'json'})
 				.done(function(books){
 					bookList.empty();
 					for(book in books) {
-						bookList.append('<li id=' + books[book].id + '> ' + books[book].id + ' "' + books[book].title + '" ' + books[book].author)
-						.append('<button class="edit" id="' + books[book].id + '">edit</button><button class="delete" id="' + books[book].id + '">delete</button><div></div>');
+						bookList.append('<li class="listItem" id=' + books[book].id + '> ' + books[book].id + ' "' + books[book].title + '" ' + books[book].author)
+						.append('<button class="edit" id="' + books[book].id + '">edit</button><button class="delete" id="' + books[book].id + '">delete</button><div id="div' + books[book].id + '"></div>');
 					}
-					
 				})
 				.fail(function(){alert('Error!')})
 				.always(function(){});
 	}
 	
+	function showBookDetails(event){
+		alert('Book ' + this.id + ' details...');
+		$('#div' + this.id).html('Book ' + this.id + ' details...');
+	}
 	function addButtonClick(event){
 		alert('Add!');
 	}
@@ -30,14 +33,16 @@ $(document).ready(function(){
 	}
 	
 	function deleteButtonClick(event){
-		alert('Delete ' + this.id);
 		$.ajax({
-			url: baseURL + this.id,
-			type: 'DELETE'})
-			.done(function(){alert ('Delete successful!');})
-		getBookList();
+			type: 'DELETE',
+			url: baseURL + this.id
+			})
+			.done(function(){
+				getBookList();
+			})
 	}
 	
+	$(document).on('click', '.listItem', showBookDetails);
 	$(document).on('click', '.add', addButtonClick);
 	$(document).on('click', '.edit', editButtonClick);
 	$(document).on('click', '.delete', deleteButtonClick);

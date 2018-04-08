@@ -27,7 +27,7 @@ public class AppConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/books/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("http://localhost");
+		registry.addMapping("/books/**").allowedMethods("GET", "POST", "PUT", "DELETE"); //.allowedOrigins("http://localhost");
 	}
 	// @Bean
 	// public ViewResolver viewResolver() {
