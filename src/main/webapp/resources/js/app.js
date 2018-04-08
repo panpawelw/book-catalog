@@ -21,8 +21,9 @@ $(document).ready(function(){
 	}
 	
 	function showBookDetails(event){
-		alert('Book ' + this.id + ' details...');
-		$('#div' + this.id).html('Book ' + this.id + ' details...');
+		var bookNumber = this.id;
+		$.getJSON(baseURL + bookNumber)
+		.done(function(book){$('#div' + bookNumber).html('<p>' + JSON.stringify(book));});
 	}
 	function addButtonClick(event){
 		alert('Add!');

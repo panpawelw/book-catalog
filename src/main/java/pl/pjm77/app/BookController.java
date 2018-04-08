@@ -30,16 +30,10 @@ public class BookController {
 	public Map<Long, Book>getBooks() {
 		return memoryBookService.getBooks();
 	}
-	
-	@RequestMapping("/hello")
-	public String hello() {
-		return "{hello:world}";
-	}
-	
-	@RequestMapping("/helloBook")
-	public Book helloBook() {
-		return new Book(1L,"9788324631766","Thinking in Java",
-				"Bruce Eckel","Helion","programming");
+	@GetMapping("/{bookId}")
+	@ResponseBody
+	public Book getBookById(@PathVariable long bookId) {
+		return memoryBookService.getById(bookId);
 	}
 	
 	@DeleteMapping("/{bookId}")

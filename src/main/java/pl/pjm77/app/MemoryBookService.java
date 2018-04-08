@@ -51,8 +51,7 @@ public class MemoryBookService implements BookService{
 
 	@Override
 	public Book getById(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return list.get(id);
 	}
 
 	@Override
