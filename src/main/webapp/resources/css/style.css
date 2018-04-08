@@ -12,4 +12,15 @@
 
 .bookList {
 	list-style-type: none;
+	padding-left : 0;
+}
+
+.bookDetails {
+	padding: 5px;
+	display: none;
+}
+
+table, td, tr {
+	margin: auto;
+	border: 2px black solid;
 }
