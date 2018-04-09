@@ -19,6 +19,10 @@
 	padding: 5px;
 	display: none;
 }
+.addBook {
+	text-align: center;
+	display: none;
+}
 
 table, td, tr {
 	margin: auto;

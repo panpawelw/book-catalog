@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +35,12 @@ public class BookController {
 	@ResponseBody
 	public Book getBookById(@PathVariable long bookId) {
 		return memoryBookService.getById(bookId);
+	}
+	
+	@PostMapping("/add")
+	public String addBook(@RequestParam String isbn, String title, String author, String publisher, String type) {
+		memoryBookService.addBook(isbn, title, author, publisher, type);
+		return "";
 	}
 	
 	@DeleteMapping("/{bookId}")

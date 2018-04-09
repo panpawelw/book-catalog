@@ -31,8 +31,9 @@ public class MemoryBookService implements BookService{
 	}
 
 	@Override
-	public void addBook(String idbn, String title, String Author, String publisher, String type) {
-		
+	public void addBook(String isbn, String title, String author, String publisher, String type) {
+		long idCounter = getNextFreeId();
+		list.put(idCounter, new Book(idCounter, isbn, title, author, publisher, type));
 	}
 
 	@Override

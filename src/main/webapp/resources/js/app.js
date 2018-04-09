@@ -57,7 +57,7 @@ $(document).ready(function(){
 	}
 	
 	function addButtonClick(event){
-		alert('Add!');
+		$('div.addBook').toggle(333);
 	}
 	
 	function editButtonClick(event){
