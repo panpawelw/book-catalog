@@ -1,6 +1,10 @@
 package pl.pjm77.app;
 
+import java.io.IOException;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,9 +42,14 @@ public class BookController {
 	}
 	
 	@PostMapping("/add")
-	public String addBook(@RequestParam String isbn, String title, String author, String publisher, String type) {
+	public void addBook(@RequestParam String isbn, String title, String author, String publisher, String type, 
+			HttpServletRequest request, HttpServletResponse response) {
 		memoryBookService.addBook(isbn, title, author, publisher, type);
-		return "";
+		try {
+			response.sendRedirect(request.getContextPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@DeleteMapping("/{bookId}")
