@@ -14,7 +14,8 @@ $(document).ready(function(){
 					bookList.empty();
 					for(book in books) {
 						bookList.append('<li class="listItem" id=' + books[book].id + '> ' + books[book].id + '. "' + books[book].title + '" ' + books[book].author)
-						.append('<button class="edit" id="' + books[book].id + '">edit</button><button class="delete" id="' + books[book].id + '">delete</button><div class="bookDetails" id="' + books[book].id + '"></div>');
+						.append('<button class="edit" id="' + books[book].id + '">edit</button><button class="delete" id="' + books[book].id + '">delete</button>')
+						.append('<div class="bookDetails" id="' + books[book].id + '"></div><div class="editBook" id="' + books[book].id + '"></div>');
 					}
 				})
 				.fail(function(){alert('Error!')})
@@ -36,13 +37,12 @@ $(document).ready(function(){
 			.done(function(book){
 				var html = $('<table>');
 				for (var key in book) {
-		            html.append($('<tr>')
-		                .append($('<td>', {text: key}))
-		                .append($('<td>', {text: book[key]}))
-		                .append($('</tr>')))
+					html.append($('<tr>')
+			                .append($('<td>', {text: key}, '</td>'))
+			                .append($('<td>', {text: book[key]}, '</td>'))
+			                .append($('</tr>')))
 		        }
 				html.append($('</table>'));
-				html.append($(''));
 //				$('div[id=' + bookNumber + ']').html(html);
 //				$('div[id=' + bookNumber + ']').show(333);
 				$('div#' + bookNumber + '.bookDetails').html(html);
@@ -61,7 +61,43 @@ $(document).ready(function(){
 	}
 	
 	function editButtonClick(event){
-		alert('Edit ' + this.id);
+		var bookNumber = this.id;
+		if(!$(this).hasClass('editShown')){
+			$(this).addClass('editShown');
+			$.ajax({
+				type: 'GET',
+				url: baseURL + bookNumber,
+				dataType: 'JSON'
+			})
+			.done(function(book){
+				var html = '<form action="books/edit" method="put"><table>';
+				var listOfLabels = ['id','isbn','title','author','publisher','type'];
+				var counter =0;
+				for (var key in book) {
+					html += '<tr><td><label for="';
+					html += key.toString();
+					html += '">';
+					html += key.toString();
+					html += '</td><td><input id="';
+					html += key.toString();
+					html += '" type="text" name="';
+					html += key.toString();
+					html += '" value="';
+					html += book[key].toString();
+					html += '"/></td>';
+					counter++;
+		        }
+				html += '<tr><td><button type="reset" class="editCancel">Cancel</button></td>';
+				html += '<td><input type="submit" value="Edit this book entry"/></td></tr></table></form>';
+				alert(html);
+				$('div#' + bookNumber + '.editBook').append(html);
+				$('div#' + bookNumber + '.editBook').show(333);
+			});
+		}else{
+			$(this).removeClass('editShown');
+			$('div#' + bookNumber + '.editBook').hide(333);
+			$('div#' + bookNumber + '.editBook').html('');
+		}
 	}
 	
 	function deleteButtonClick(event){
@@ -77,6 +113,7 @@ $(document).ready(function(){
 	$(document).on('click', '.listItem', showBookDetails);
 	$(document).on('click', '.bookDetails', hideBookDetails);
 	$(document).on('click', '.add', addButtonClick);
+	$(document).on('click', '.addCancel', addButtonClick);
 	$(document).on('click', '.edit', editButtonClick);
 	$(document).on('click', '.delete', deleteButtonClick);
 	getBookList();

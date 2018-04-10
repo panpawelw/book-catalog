@@ -42,7 +42,9 @@
 					<td><input id='type' type='text' name='type'/></td>
 				</tr>
 				<tr>
-					<td colspan=2><input type='submit' value='Add this book to database'/></td>
+					<td><button type='reset' class='addCancel'>Cancel</button></td>
+					<td><input type='submit' value='Add this book to database'/></td>
+				</tr>
 			</table>
 		</form>
 	</div>
