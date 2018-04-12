@@ -26,7 +26,6 @@ $(document).ready(function(){
 		if(!$(this).hasClass('detailsShown')){
 			$(this).addClass('detailsShown');
 			var bookNumber = this.id;
-//			$('div[id=' + bookNumber + ']').hide(1);
 			$('div#' + bookNumber + '.bookDetails').hide(1);
 	//		$.getJSON(baseURL + bookNumber)
 			$.ajax({
@@ -70,9 +69,9 @@ $(document).ready(function(){
 				dataType: 'JSON'
 			})
 			.done(function(book){
-				var html = '<form action="books/edit" method="put"><table>';
-				var listOfLabels = ['id','isbn','title','author','publisher','type'];
-				var counter =0;
+				var html = '<form action="books/update/'
+					html += bookNumber.toString();
+					html += '" method="put"><table>';
 				for (var key in book) {
 					html += '<tr><td><label for="';
 					html += key.toString();
@@ -85,14 +84,24 @@ $(document).ready(function(){
 					html += '" value="';
 					html += book[key].toString();
 					html += '"/></td>';
-					counter++;
 		        }
 				html += '<tr><td><button type="reset" class="editCancel">Cancel</button></td>';
 				html += '<td><input type="submit" value="Edit this book entry"/></td></tr></table></form>';
-				alert(html);
 				$('div#' + bookNumber + '.editBook').append(html);
 				$('div#' + bookNumber + '.editBook').show(333);
-			});
+				var theBook={id:3, isbn:'666', title:'whatever', author:'whoever', publisher:'blahblah', type:'mboo'};
+				alert(JSON.stringify(theBook));
+				$.ajax({
+					url: baseURL + 'update/' + theBook.id,
+					type: 'PUT',
+					contentType: 'application/json',
+					data: JSON.stringify(theBook)
+					}).done(function (){
+						alert('done!');
+					}).fail(function (){
+						alert('fail!');
+					});
+				});
 		}else{
 			$(this).removeClass('editShown');
 			$('div#' + bookNumber + '.editBook').hide(333);

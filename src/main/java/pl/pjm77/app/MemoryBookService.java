@@ -38,8 +38,8 @@ public class MemoryBookService implements BookService{
 
 	@Override
 	public void updateBook(Book book) {
-		if(book!=null) {
-			
+		if(book!=null && book.getId()!=0) {
+			list.replace(book.getId(), book);
 		}
 	}
 

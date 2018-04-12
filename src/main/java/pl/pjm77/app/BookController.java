@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,11 +35,13 @@ public class BookController {
 	@GetMapping("/")
 	@ResponseBody
 	public Map<Long, Book>getBooks() {
+		System.out.println("getBooks");
 		return memoryBookService.getBooks();
 	}
 	@GetMapping("/{bookId}")
 	@ResponseBody
 	public Book getBookById(@PathVariable long bookId) {
+		System.out.println("getBookById");
 		return memoryBookService.getById(bookId);
 	}
 	
@@ -52,16 +56,29 @@ public class BookController {
 		}
 	}
 	
+//	@CrossOrigin
+//	@GetMapping("/update/{bookId}")
+//	@ResponseBody
+//	public void updateBook(@RequestBody(required=true) Book book) {
+//			HttpServletRequest request, HttpServletResponse response) {
+//		System.out.println("Whatever!");
+//		try {
+//			response.sendRedirect(request.getContextPath());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	@PutMapping("/update/{bookId}")
+	@ResponseBody
+	public void updateBook(@PathVariable long bookId, @RequestBody(required=true) Book book) {
+		System.out.println("Update book: " + bookId);
+		System.out.println(book);
+	}
+	
 	@DeleteMapping("/{bookId}")
 	@ResponseBody
 	public void deleteBook(@PathVariable long bookId) {
-		System.out.println(bookId);
 		memoryBookService.deleteBook(bookId);
-		System.out.println(memoryBookService.getBooks());
-	}
-	
-	@GetMapping("/edit")
-	public void editBook() {
-		System.out.println("edit!");
 	}
 }
