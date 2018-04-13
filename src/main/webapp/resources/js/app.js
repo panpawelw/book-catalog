@@ -97,9 +97,7 @@ $(document).ready(function(){
 					contentType: 'application/json',
 					data: JSON.stringify(theBook)
 					}).done(function (){
-						alert('done!');
-					}).fail(function (){
-						alert('fail!');
+						getBookList();
 					});
 				});
 		}else{

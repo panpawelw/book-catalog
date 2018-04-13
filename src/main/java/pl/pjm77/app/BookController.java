@@ -56,25 +56,10 @@ public class BookController {
 		}
 	}
 	
-//	@CrossOrigin
-//	@GetMapping("/update/{bookId}")
-//	@ResponseBody
-//	public void updateBook(@RequestBody(required=true) Book book) {
-//			HttpServletRequest request, HttpServletResponse response) {
-//		System.out.println("Whatever!");
-//		try {
-//			response.sendRedirect(request.getContextPath());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
 	@PutMapping("/update/{bookId}")
 	@ResponseBody
 	public void updateBook(@PathVariable long bookId, @RequestBody(required=true) Book book) {
-		System.out.println("Update book: " + bookId);
-		System.out.println(book);
-	}
+		memoryBookService.updateBook(book);	}
 	
 	@DeleteMapping("/{bookId}")
 	@ResponseBody
