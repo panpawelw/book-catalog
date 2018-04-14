@@ -14,8 +14,8 @@ $(document).ready(function(){
 					bookList.empty();
 					for(book in books) {
 						bookList.append('<li class="listItem" id=' + books[book].id + '> ' + books[book].id + '. "' + books[book].title + '" ' + books[book].author)
-						.append('<button class="edit" id="' + books[book].id + '">edit</button><button class="delete" id="' + books[book].id + '">delete</button>')
-						.append('<div class="bookDetails" id="' + books[book].id + '"></div><div class="editBook" id="' + books[book].id + '"></div>');
+						.append('<button class="update" id="' + books[book].id + '">update</button><button class="delete" id="' + books[book].id + '">delete</button>')
+						.append('<div class="bookDetails" id="' + books[book].id + '"></div><div class="updateBook" id="' + books[book].id + '"></div>');
 					}
 				})
 				.fail(function(){alert('Error!')})
@@ -59,20 +59,28 @@ $(document).ready(function(){
 		$('div.addBook').toggle(333);
 	}
 	
-	function editButtonClick(event){
+	function updateButtonClick(event){
 		var bookNumber = this.id;
-		if(!$(this).hasClass('editShown')){
-			$(this).addClass('editShown');
+		if(!$(this).hasClass('updateShown')){
+			$(this).addClass('updateShown');
 			$.ajax({
 				type: 'GET',
 				url: baseURL + bookNumber,
 				dataType: 'JSON'
 			})
 			.done(function(book){
-				var html = '<form action="books/update/'
-					html += bookNumber.toString();
-					html += '" method="put"><table>';
+				var html = '<form class="updateForm" id="';
+					html += bookNumber;
+					html += action='"books/update/';
+					html += bookNumber;
+					html += '" method="put">';
 				for (var key in book) {
+					if(key=='id'){
+						html += '<input type="hidden" id="id" name="id" value="';
+						html += book[key].toString();
+						html += '"/>';
+						html +='<table>';
+					}else{
 					html += '<tr><td><label for="';
 					html += key.toString();
 					html += '">';
@@ -84,26 +92,19 @@ $(document).ready(function(){
 					html += '" value="';
 					html += book[key].toString();
 					html += '"/></td>';
+					}
 		        }
-				html += '<tr><td><button type="reset" class="editCancel">Cancel</button></td>';
-				html += '<td><input type="submit" value="Edit this book entry"/></td></tr></table></form>';
-				$('div#' + bookNumber + '.editBook').append(html);
-				$('div#' + bookNumber + '.editBook').show(333);
-				var theBook={id:3, isbn:'666', title:'whatever', author:'whoever', publisher:'blahblah', type:'mboo'};
-				alert(JSON.stringify(theBook));
-				$.ajax({
-					url: baseURL + 'update/' + theBook.id,
-					type: 'PUT',
-					contentType: 'application/json',
-					data: JSON.stringify(theBook)
-					}).done(function (){
-						getBookList();
-					});
-				});
+				html += '<tr><td><button id="'
+				html += bookNumber;
+				html += '" type="reset" class="updateCancel">Cancel</button></td>';
+				html += '<td><input class="updateSubmit" type="submit" value="Edit this book entry"/></td></tr></table></form>';
+				$('div#' + bookNumber + '.updateBook').append(html);
+				$('div#' + bookNumber + '.updateBook').show(333);
+			});
 		}else{
-			$(this).removeClass('editShown');
-			$('div#' + bookNumber + '.editBook').hide(333);
-			$('div#' + bookNumber + '.editBook').html('');
+			$(this).removeClass('updateShown');
+			$('div#' + bookNumber + '.updateBook').hide(333);
+			$('div#' + bookNumber + '.updateBook').html('');
 		}
 	}
 	
@@ -117,12 +118,38 @@ $(document).ready(function(){
 			})
 	}
 	
+	function updateSubmitClick(event){
+		var bookRough = $('form.updateForm').serializeArray();
+		var book = {};
+		$.map(bookRough, function(n, i){
+	        book[n['name']] = n['value'];
+	    });
+		book.id = Number(book.id);
+		$.ajax({
+			url: baseURL + 'update/' + book.id,
+			type: 'PUT',
+			contentType: 'application/json',
+			data: JSON.stringify(book)
+			}).done(function (){
+				getBookList();
+			});
+	}
+	
+	function updateCancelClick(event){
+		var bookNumber = this.id;
+		$('button#' + bookNumber + '.updateShown').removeClass('updateShown');
+		$('div#' + bookNumber + '.updateBook').hide(333);
+		$('div#' + bookNumber + '.updateBook').html('');
+	}
+	
 	$(document).on('click', '.listItem', showBookDetails);
 	$(document).on('click', '.bookDetails', hideBookDetails);
 	$(document).on('click', '.add', addButtonClick);
 	$(document).on('click', '.addCancel', addButtonClick);
-	$(document).on('click', '.edit', editButtonClick);
+	$(document).on('click', '.update', updateButtonClick);
 	$(document).on('click', '.delete', deleteButtonClick);
+	$(document).on('click', '.updateSubmit', updateSubmitClick);
+	$(document).on('click', '.updateCancel', updateCancelClick);
 	getBookList();
 	
 });
