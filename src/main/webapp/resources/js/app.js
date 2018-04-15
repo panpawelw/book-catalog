@@ -5,7 +5,6 @@ $(document).ready(function(){
 	
 	function getBookList() {
 			var books;
-//			$.getJSON(baseURL)
 			$.ajax({
 				type: 'GET',
 				url: baseURL,
@@ -27,7 +26,6 @@ $(document).ready(function(){
 			$(this).addClass('detailsShown');
 			var bookNumber = this.id;
 			$('div#' + bookNumber + '.bookDetails').hide(1);
-	//		$.getJSON(baseURL + bookNumber)
 			$.ajax({
 				type: 'GET',
 				url: baseURL + bookNumber,
@@ -42,8 +40,6 @@ $(document).ready(function(){
 			                .append($('</tr>')))
 		        }
 				html.append($('</table>'));
-//				$('div[id=' + bookNumber + ']').html(html);
-//				$('div[id=' + bookNumber + ']').show(333);
 				$('div#' + bookNumber + '.bookDetails').html(html);
 				$('div#' + bookNumber + '.bookDetails').show(333);
 			});
