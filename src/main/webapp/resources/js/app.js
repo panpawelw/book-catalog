@@ -107,7 +107,8 @@ $(document).ready(function(){
 	function deleteButtonClick(event){
 		$.ajax({
 			type: 'DELETE',
-			url: baseURL + this.id
+			url: baseURL + this.id,
+			async: false
 			})
 			.done(function(){
 				getBookList();
@@ -125,7 +126,8 @@ $(document).ready(function(){
 			url: baseURL + 'update/' + book.id,
 			type: 'PUT',
 			contentType: 'application/json',
-			data: JSON.stringify(book)
+			data: JSON.stringify(book),
+			async: false
 			}).done(function (){
 				getBookList();
 			});
