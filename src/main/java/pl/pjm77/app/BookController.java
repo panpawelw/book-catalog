@@ -32,13 +32,11 @@ public class BookController {
 	@GetMapping("/")
 	@ResponseBody
 	public Map<Long, Book> getBooks() {
-		System.out.println("Book list: " + memoryBookService.getBooks());
 		return memoryBookService.getBooks();
 	}
 	@GetMapping("/{bookId}")
 	@ResponseBody
 	public Book getBookById(@PathVariable long bookId) {
-		System.out.println("Book by ID: " + memoryBookService.getById(bookId));
 		return memoryBookService.getById(bookId);
 	}
 	
