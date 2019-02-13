@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	
-	var baseURL = 'http://localhost:8080/Workshop_4and5/books/';
+	var baseURL = 'http://localhost:8080/Book_Catalog/books/';
 	var bookList = $('ul.bookList');
 	
 	function getBookList() {
