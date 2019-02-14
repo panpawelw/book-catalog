@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.pjm77</groupId>
-	<artifactId>Book_Catalog</artifactId>
+	<artifactId>BookCatalog</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Book_Catalog Maven Webapp</name>
+	<name>BookCatalog Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<org.springframework-version>
@@ -46,6 +46,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>Book_Catalog</finalName>
+		<finalName>BookCatalog</finalName>
 	</build>
 </project>
