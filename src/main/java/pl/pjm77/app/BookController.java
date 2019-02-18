@@ -22,44 +22,44 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/books")
 public class BookController {
 
-	public MemoryBookService memoryBookService;
-	
-	@Autowired
-	public BookController(MemoryBookService memoryBookService) {
-		this.memoryBookService = memoryBookService;
-	}
-	
-	@GetMapping("/")
-	@ResponseBody
-	public Map<Long, Book> getBooks() {
-		return memoryBookService.getBooks();
-	}
-	@GetMapping("/{bookId}")
-	@ResponseBody
-	public Book getBookById(@PathVariable long bookId) {
-		return memoryBookService.getById(bookId);
-	}
-	
-	@PostMapping("/add")
-	public void addBook(@RequestParam String isbn, String title, String author, String publisher, String type, 
-			HttpServletRequest request, HttpServletResponse response) {
-		memoryBookService.addBook(isbn, title, author, publisher, type);
-		try {
-			response.sendRedirect(request.getContextPath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@PutMapping("/update/{bookId}")
-	@ResponseBody
-	public void updateBook(@PathVariable long bookId, @RequestBody(required=true) Book book) {
-		System.out.println("Updating " + book.toString());
-		memoryBookService.updateBook(book);	}
-	
-	@DeleteMapping("/{bookId}")
-	@ResponseBody
-	public void deleteBook(@PathVariable long bookId) {
-		memoryBookService.deleteBook(bookId);
-	}
+    public MemoryBookService memoryBookService;
+
+    @Autowired
+    public BookController(MemoryBookService memoryBookService) {
+        this.memoryBookService = memoryBookService;
+    }
+
+    @GetMapping("/")
+    @ResponseBody
+    public Map<Long, Book> getBooks() {
+        return memoryBookService.getBooks();
+    }
+    @GetMapping("/{bookId}")
+    @ResponseBody
+    public Book getBookById(@PathVariable long bookId) {
+        return memoryBookService.getById(bookId);
+    }
+
+    @PostMapping("/add")
+    public void addBook(@RequestParam String isbn, String title, String author, String publisher, String type,
+                        HttpServletRequest request, HttpServletResponse response) {
+        memoryBookService.addBook(isbn, title, author, publisher, type);
+        try {
+            response.sendRedirect(request.getContextPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PutMapping("/update/{bookId}")
+    @ResponseBody
+    public void updateBook(@PathVariable long bookId, @RequestBody(required=true) Book book) {
+        System.out.println("Updating " + book.toString());
+        memoryBookService.updateBook(book);	}
+
+    @DeleteMapping("/{bookId}")
+    @ResponseBody
+    public void deleteBook(@PathVariable long bookId) {
+        memoryBookService.deleteBook(bookId);
+    }
 }

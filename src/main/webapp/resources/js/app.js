@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-    var baseURL = 'http://localhost:8080/BookCatalog/books/';
+    var baseURL = 'http://localhost:8080/book_catalog/books/';
+    // var baseURL = 'http://panpawelw:8080/book_catalog/books/';
     var bookList = $('ul.bookList');
 
     function getBookList() {
