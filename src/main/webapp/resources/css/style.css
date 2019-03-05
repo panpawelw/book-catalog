@@ -1,29 +1,34 @@
 @charset "UTF-8";
 
+body {
+    background: #E9E49D url("../images/background.jpg") repeat;
+    font-weight: bold;
+}
+
 .title {
-	color: green;
+    color: green;
 }
 
 .listContainer {
-	display: table;
-	margin: auto;
-	text-align: center;
+    display: table;
+    margin: auto;
+    text-align: center;
 }
 
 .bookList {
-	list-style-type: none;
-	padding-left : 0;
+    list-style-type: none;
+    padding-left : 0;
 }
 
 .bookDetails,
 .updateBook,
 .addBook {
-	padding: 5px;
-	display: none;
-	text-align: center;
+    padding: 5px;
+    display: none;
+    text-align: center;
 }
 
 table, td, tr {
-	margin: auto;
-	border: 2px black solid;
+    margin: auto;
+    border: 2px black solid;
 }

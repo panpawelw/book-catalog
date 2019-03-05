@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/books")
 public class BookController {
 
-    public MemoryBookService memoryBookService;
+    private MemoryBookService memoryBookService;
 
     @Autowired
     public BookController(MemoryBookService memoryBookService) {

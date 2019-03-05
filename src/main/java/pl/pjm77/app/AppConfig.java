@@ -13,16 +13,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = "pl.pjm77")
 public class AppConfig implements WebMvcConfigurer {
 
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-		configurer.enable();
-	}
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("/resources/").setCachePeriod(31556926);
-	}
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("/resources/").setCachePeriod(31556926);
+    }
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/books/**").allowedMethods("GET", "POST", "PUT", "DELETE"); //.allowedOrigins("http://localhost");
-	}
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/books/**").allowedMethods("GET", "POST", "PUT", "DELETE"); //.allowedOrigins("http://localhost");
+    }
 }
