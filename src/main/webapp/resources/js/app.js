@@ -1,7 +1,6 @@
 $(document).ready(function(){
 
-    var baseURL = 'http://localhost:8080/book_catalog/books/';
-    // var baseURL = 'http://panpawelw:8080/book_catalog/books/';
+    var baseURL = window.location.href + '/books/';
     var bookList = $('ul.bookList');
 
     function getBookList() {
@@ -23,9 +22,9 @@ $(document).ready(function(){
     }
 
     function showBookDetails(event){
+        var bookNumber = this.id;
         if(!$(this).hasClass('detailsShown')){
             $(this).addClass('detailsShown');
-            var bookNumber = this.id;
             $('div#' + bookNumber + '.bookDetails').hide(1);
             $.ajax({
                 type: 'GET',
@@ -44,6 +43,9 @@ $(document).ready(function(){
                     $('div#' + bookNumber + '.bookDetails').html(html);
                     $('div#' + bookNumber + '.bookDetails').show(333);
                 });
+        }else {
+            $(this).removeClass('detailsShown');
+            $('div#' + bookNumber + '.bookDetails').hide(333);
         }
     }
 

@@ -10,8 +10,9 @@
 <body>
 <br>
 <br>
-<br>
 <h1 align='center' class='title'>Book Catalog</h1>
+<p align='center' style="font-weight: normal">click book title to show / hide book details</p>
+<br>
 <div class='listContainer'>
     <ul class='bookList'></ul>
 </div>
