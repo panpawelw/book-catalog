@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemoryBookService implements BookService {
 
-    private Map<Long, Book> list;
+    private final Map<Long, Book> list;
     private long nextId;
 
     public MemoryBookService() {

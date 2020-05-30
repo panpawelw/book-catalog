@@ -22,28 +22,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/books")
 public class BookController {
 
-    private MemoryBookService memoryBookService;
+    private final BookService bookService;
 
     @Autowired
-    public BookController(MemoryBookService memoryBookService) {
-        this.memoryBookService = memoryBookService;
+    public BookController(MemoryBookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping("/")
     @ResponseBody
     public Map<Long, Book> getBooks() {
-        return memoryBookService.getBooks();
+        return bookService.getBooks();
     }
+
     @GetMapping("/{bookId}")
     @ResponseBody
     public Book getBookById(@PathVariable long bookId) {
-        return memoryBookService.getById(bookId);
+        return bookService.getById(bookId);
     }
 
     @PostMapping("/add")
     public void addBook(@RequestParam String isbn, String title, String author, String publisher, String type,
                         HttpServletRequest request, HttpServletResponse response) {
-        memoryBookService.addBook(isbn, title, author, publisher, type);
+        bookService.addBook(isbn, title, author, publisher, type);
         try {
             response.sendRedirect(request.getContextPath());
         } catch (IOException e) {
@@ -54,12 +55,11 @@ public class BookController {
     @PutMapping("/update/{bookId}")
     @ResponseBody
     public void updateBook(@PathVariable long bookId, @RequestBody(required=true) Book book) {
-        System.out.println("Updating " + book.toString());
-        memoryBookService.updateBook(book);	}
+        bookService.updateBook(book);	}
 
     @DeleteMapping("/{bookId}")
     @ResponseBody
     public void deleteBook(@PathVariable long bookId) {
-        memoryBookService.deleteBook(bookId);
+        bookService.deleteBook(bookId);
     }
 }
