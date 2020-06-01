@@ -44,7 +44,7 @@ public class BookController {
     @PostMapping("/add")
     public void addBook(@RequestParam String isbn, String title, String author, String publisher, String type,
                         HttpServletRequest request, HttpServletResponse response) {
-        bookService.addBook(isbn, title, author, publisher, type);
+        bookService.addBook(new Book(isbn, title, author, publisher, type));
         try {
             response.sendRedirect(request.getContextPath());
         } catch (IOException e) {

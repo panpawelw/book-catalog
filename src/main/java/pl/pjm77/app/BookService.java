@@ -4,11 +4,11 @@ import java.util.Map;
 
 public interface BookService {
 
-    void addBook(String idbn, String title, String Author, String publisher, String type);
+    long addBook(Book book);
 
-    void updateBook(Book book);
+    boolean updateBook(Book book);
 
-    void deleteBook(long id);
+    boolean deleteBook(long id);
 
     Book getById(long id);
 

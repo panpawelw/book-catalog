@@ -44,23 +44,27 @@ public class MemoryBookService implements BookService {
     }
 
     @Override
-    public void addBook(String isbn, String title, String author, String publisher, String type) {
+    public long addBook(Book book) {
         long idCounter = getNextFreeId();
-        list.put(idCounter, new Book(idCounter, isbn, title, author, publisher, type));
+        book.setId(idCounter);
+        list.put(idCounter, book);
+        return book.getId();
     }
 
     @Override
-    public void updateBook(Book book) {
+    public boolean updateBook(Book book) {
         if (book != null && book.getId() != 0) {
             list.replace(book.getId(), book);
         }
+        return true;
     }
 
     @Override
-    public void deleteBook(long id) {
+    public boolean deleteBook(long id) {
         if (id > 0 && list.get(id) != null) {
             list.remove(id);
         }
+        return true;
     }
 
     @Override
