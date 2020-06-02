@@ -38,7 +38,7 @@ public class BookController {
     @GetMapping("/{bookId}")
     @ResponseBody
     public Book getBookById(@PathVariable long bookId) {
-        return bookService.getById(bookId);
+        return bookService.getBookById(bookId);
     }
 
     @PostMapping("/add")

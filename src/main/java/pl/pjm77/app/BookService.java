@@ -10,7 +10,7 @@ public interface BookService {
 
     boolean deleteBook(long id);
 
-    Book getById(long id);
+    Book getBookById(long id);
 
     Map<Long, Book> getBooks();
 }

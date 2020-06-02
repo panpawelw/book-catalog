@@ -68,7 +68,7 @@ public class MemoryBookService implements BookService {
     }
 
     @Override
-    public Book getById(long id) {
+    public Book getBookById(long id) {
         return list.get(id);
     }
 
