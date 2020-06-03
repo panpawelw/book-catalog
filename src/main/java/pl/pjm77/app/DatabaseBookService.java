@@ -1,26 +1,22 @@
 package pl.pjm77.app;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.util.Map;
-import org.springframework.jdbc.core.JdbcTemplate;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
+@Service
 public class DatabaseBookService implements BookService {
 
-    private DataSource datasource;
+    private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
 
-    public DatabaseBookService() {
-        if (datasource == null) {
-            try {
-                datasource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc" +
-                  "/book_catalog");
-            } catch (NamingException e) {
-                e.printStackTrace();
-            }
-        }
-        jdbcTemplate = new JdbcTemplate(datasource);
+    @Autowired
+    public DatabaseBookService(DataSource dataSource) {
+        this.dataSource = dataSource;
+        jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS books (id BIGINT, isbn VARCHAR(255), " +
           "title VARCHAR(255), author VARCHAR(255), publisher VARCHAR(255), type VARCHAR(255));");
     }
