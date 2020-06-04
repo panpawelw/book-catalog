@@ -24,7 +24,7 @@ public class MemoryBookService implements BookService {
         list.put(idCounter, new Book(idCounter, "9780130819338", "Java 2. Podstawy.",
                 "Cay Horstmann, Gary Cornell", "Helion", "programming"));
         idCounter = getNextFreeId();
-        list.put(idCounter, new Book(idCounter, "9781932394856", "Test Driven.", "Lance Kosskella",
+        list.put(idCounter, new Book(idCounter, "9781932394856", "Test Driven.", "Lance Koskela",
                 "Manning", "programming"));
         idCounter = getNextFreeId();
         list.put(idCounter, new Book(idCounter, "9780134685991", "Effective Java.", "Joshua Bloch",
