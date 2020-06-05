@@ -1,6 +1,8 @@
 package pl.pjm77.app;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,17 @@ public class DatabaseBookService implements BookService {
 
     @Override
     public Map<Long, Book> getBooks() {
-        return null;
+        Map<Long, Book> list = new HashMap<>();
+        List<Map<String, Object>> tempList = jdbcTemplate.queryForList("SELECT * FROM books");
+        for (Map<String, Object> map : tempList) {
+            Book book = new Book();
+            book.setId((Long) map.get("id"));
+            book.setIsbn((String) map.get("isbn"));
+            book.setTitle((String) map.get("title"));
+            book.setAuthor((String) map.get("author"));
+            book.setPublisher((String) map.get("publisher"));
+            list.put(book.getId(), book);
+        }
+        return list;
     }
 }
