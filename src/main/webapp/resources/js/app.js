@@ -1,17 +1,16 @@
 $(document).ready(function(){
 
-    var baseURL = window.location.href + '/books/';
-    var bookList = $('ul.bookList');
+    let baseURL = window.location.href + '/books/';
+    let bookList = $('ul.bookList');
 
     function getBookList() {
-        var books;
         $.ajax({
             type: 'GET',
             url: baseURL,
             dataType: 'JSON'})
             .done(function(books){
                 bookList.empty();
-                for(book in books) {
+                for(let book in books) {
                     bookList.append('<li class="listItem" id=' + books[book].id + '> ' + books[book].id + '. "' + books[book].title + '" ' + books[book].author)
                         .append('<button class="update" id="' + books[book].id + '">update</button><button class="delete" id="' + books[book].id + '">delete</button>')
                         .append('<div class="bookDetails" id="' + books[book].id + '"></div><div class="updateBook" id="' + books[book].id + '"></div>');
@@ -21,8 +20,8 @@ $(document).ready(function(){
             .always(function(){});
     }
 
-    function showBookDetails(event){
-        var bookNumber = this.id;
+    function showBookDetails(){
+        let bookNumber = this.id;
         if(!$(this).hasClass('detailsShown')){
             $(this).addClass('detailsShown');
             $('div#' + bookNumber + '.bookDetails').hide(1);
@@ -32,8 +31,8 @@ $(document).ready(function(){
                 dataType: 'JSON'
             })
                 .done(function(book){
-                    var html = $('<table>');
-                    for (var key in book) {
+                    let html = $('<table>');
+                    for (let key in book) {
                         html.append($('<tr>')
                             .append($('<td>', {text: key}, '</td>'))
                             .append($('<td>', {text: book[key]}, '</td>'))
@@ -49,17 +48,17 @@ $(document).ready(function(){
         }
     }
 
-    function hideBookDetails(event){
+    function hideBookDetails(){
         $(this).hide(333);
         $('li#'+ this.id +'.detailsShown').removeClass('detailsShown');
     }
 
-    function addButtonClick(event){
+    function addButtonClick(){
         $('div.addBook').toggle(333);
     }
 
-    function updateButtonClick(event){
-        var bookNumber = this.id;
+    function updateButtonClick(){
+        let bookNumber = this.id;
         if(!$(this).hasClass('updateShown')){
             $(this).addClass('updateShown');
             $.ajax({
@@ -68,13 +67,13 @@ $(document).ready(function(){
                 dataType: 'JSON'
             })
                 .done(function(book){
-                    var html = '<form class="updateForm" id="';
+                    let html = '<form class="updateForm" id="';
                     html += bookNumber;
                     html += action='"books/update/';
                     html += bookNumber;
                     html += '" method="put">';
-                    for (var key in book) {
-                        if(key=='id'){
+                    for (let key in book) {
+                        if(key==='id'){
                             html += '<input type="hidden" id="id" name="id" value="';
                             html += book[key].toString();
                             html += '"/>';
@@ -107,20 +106,19 @@ $(document).ready(function(){
         }
     }
 
-    function deleteButtonClick(event){
+    function deleteButtonClick(){
         $.ajax({
             type: 'DELETE',
             url: baseURL + this.id,
-            async: false
         })
             .done(function(){
                 getBookList();
             })
     }
 
-    function updateSubmitClick(event){
-        var bookRough = $('form.updateForm').serializeArray();
-        var book = {};
+    function updateSubmitClick(){
+        let bookRough = $('form.updateForm').serializeArray();
+        let book = {};
         $.map(bookRough, function(n, i){
             book[n['name']] = n['value'];
         });
@@ -130,14 +128,13 @@ $(document).ready(function(){
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(book),
-            async: false
         }).done(function (){
             getBookList();
         });
     }
 
-    function updateCancelClick(event){
-        var bookNumber = this.id;
+    function updateCancelClick(){
+        let bookNumber = this.id;
         $('button#' + bookNumber + '.updateShown').removeClass('updateShown');
         $('div#' + bookNumber + '.updateBook').hide(333);
         $('div#' + bookNumber + '.updateBook').html('');
@@ -152,5 +149,4 @@ $(document).ready(function(){
     $(document).on('click', '.updateSubmit', updateSubmitClick);
     $(document).on('click', '.updateCancel', updateCancelClick);
     getBookList();
-
 });
