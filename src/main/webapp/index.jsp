@@ -49,6 +49,12 @@
         </table>
     </form>
 </div>
+<div>
+    <input type="radio" id="memory-database" name="database" value="memory">
+    <label for="memory-database">memory</label>
+    <input type="radio" id="mysql-database" name="database" value="mysql">
+    <label for="mysql-database">mySQL</label>
+</div>
 <script src='resources/js/jquery-3.3.1.min.js'></script>
 <script src='resources/js/app.js'></script>
 </body>
