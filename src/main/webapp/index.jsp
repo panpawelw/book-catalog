@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,16 +10,16 @@
 <body>
 <br>
 <br>
-<h1 align='center' class='title'>Book Catalog</h1>
-<p align='center' style="font-weight: normal">click book title to show / hide book details</p>
+<h1 class='title'>Book Catalog</h1>
+<p style="font-weight: normal">click book title to show / hide book details</p>
 <br>
-<div class='listContainer'>
-    <ul class='bookList'></ul>
+<div class='list-container'>
+    <ul class='book-list'></ul>
 </div>
-<div align='center'>
+<div class="add-book-button">
     <button class='add'>Add new book</button>
 </div>
-<div class='addBook'>
+<div class='add-book'>
     <form action='books/add' method='post'>
         <table>
             <tr>
@@ -43,7 +43,7 @@
                 <td><input id='type' type='text' name='type'/></td>
             </tr>
             <tr>
-                <td><button type='reset' class='addCancel'>Cancel</button></td>
+                <td><button type='reset' class='add-cancel'>Cancel</button></td>
                 <td><input type='submit' value='Add this book to database'/></td>
             </tr>
         </table>

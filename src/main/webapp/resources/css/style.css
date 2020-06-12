@@ -3,29 +3,28 @@
 body {
     background: #E9E49D url("../images/background.jpg") repeat;
     font-weight: bold;
+    text-align: center;
 }
 
 .title {
     color: green;
 }
 
-.listContainer {
+.list-container {
     display: table;
     margin: auto;
-    text-align: center;
 }
 
-.bookList {
+.book-list {
     list-style-type: none;
     padding-left : 0;
 }
 
-.bookDetails,
-.updateBook,
-.addBook {
+.book-details,
+.update-book,
+.add-book {
     padding: 5px;
     display: none;
-    text-align: center;
 }
 
 table, td, tr {

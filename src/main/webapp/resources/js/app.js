@@ -1,9 +1,10 @@
 $(document).ready(function(){
 
-    let baseURL = window.location.href + '/books/';
-    let bookList = $('ul.bookList');
+    const baseURL = window.location.pathname + 'books/';
+    let bookList = $('ul.book-list');
 
     function getBookList() {
+
         $.ajax({
             type: 'GET',
             url: baseURL,
@@ -11,9 +12,9 @@ $(document).ready(function(){
             .done(function(books){
                 bookList.empty();
                 for(let book in books) {
-                    bookList.append('<li class="listItem" id=' + books[book].id + '> ' + books[book].id + '. "' + books[book].title + '" ' + books[book].author)
+                    bookList.append('<li class="list-item" id=' + books[book].id + '> ' + books[book].id + '. "' + books[book].title + '" ' + books[book].author)
                         .append('<button class="update" id="' + books[book].id + '">update</button><button class="delete" id="' + books[book].id + '">delete</button>')
-                        .append('<div class="bookDetails" id="' + books[book].id + '"></div><div class="updateBook" id="' + books[book].id + '"></div>');
+                        .append('<div class="book-details" id="' + books[book].id + '"></div><div class="update-book" id="' + books[book].id + '"></div>');
                 }
             })
             .fail(function(){alert('Error!')})
@@ -22,9 +23,9 @@ $(document).ready(function(){
 
     function showBookDetails(){
         let bookNumber = this.id;
-        if(!$(this).hasClass('detailsShown')){
-            $(this).addClass('detailsShown');
-            $('div#' + bookNumber + '.bookDetails').hide(1);
+        if(!$(this).hasClass('details-shown')){
+            $(this).addClass('details-shown');
+            $('div#' + bookNumber + '.book-details').hide(1);
             $.ajax({
                 type: 'GET',
                 url: baseURL + bookNumber,
@@ -39,35 +40,35 @@ $(document).ready(function(){
                             .append($('</tr>')))
                     }
                     html.append($('</table>'));
-                    $('div#' + bookNumber + '.bookDetails').html(html);
-                    $('div#' + bookNumber + '.bookDetails').show(333);
+                    $('div#' + bookNumber + '.book-details').html(html);
+                    $('div#' + bookNumber + '.book-details').show(333);
                 });
         }else {
-            $(this).removeClass('detailsShown');
-            $('div#' + bookNumber + '.bookDetails').hide(333);
+            $(this).removeClass('details-shown');
+            $('div#' + bookNumber + '.book-details').hide(333);
         }
     }
 
     function hideBookDetails(){
         $(this).hide(333);
-        $('li#'+ this.id +'.detailsShown').removeClass('detailsShown');
+        $('li#'+ this.id +'.details-shown').removeClass('details-shown');
     }
 
     function addButtonClick(){
-        $('div.addBook').toggle(333);
+        $('div.add-book').toggle(333);
     }
 
     function updateButtonClick(){
         let bookNumber = this.id;
-        if(!$(this).hasClass('updateShown')){
-            $(this).addClass('updateShown');
+        if(!$(this).hasClass('update-shown')){
+            $(this).addClass('update-shown');
             $.ajax({
                 type: 'GET',
                 url: baseURL + bookNumber,
                 dataType: 'JSON'
             })
                 .done(function(book){
-                    let html = '<form class="updateForm" id="';
+                    let html = '<form class="update-form" id="';
                     html += bookNumber;
                     html += action='"books/update/';
                     html += bookNumber;
@@ -94,15 +95,16 @@ $(document).ready(function(){
                     }
                     html += '<tr><td><button id="'
                     html += bookNumber;
-                    html += '" type="reset" class="updateCancel">Cancel</button></td>';
-                    html += '<td><input class="updateSubmit" type="submit" value="Edit this book entry"/></td></tr></table></form>';
-                    $('div#' + bookNumber + '.updateBook').append(html);
-                    $('div#' + bookNumber + '.updateBook').show(333);
+                    html += '" type="reset" class="update-cancel">Cancel</button></td>';
+                    html += '<td><input class="update-submit" type="submit" value="Edit this' +
+                        ' book entry"/></td></tr></table></form>';
+                    $('div#' + bookNumber + '.update-book').append(html);
+                    $('div#' + bookNumber + '.update-book').show(333);
                 });
         }else{
-            $(this).removeClass('updateShown');
-            $('div#' + bookNumber + '.updateBook').hide(333);
-            $('div#' + bookNumber + '.updateBook').html('');
+            $(this).removeClass('update-shown');
+            $('div#' + bookNumber + '.update-book').hide(333);
+            $('div#' + bookNumber + '.update-book').html('');
         }
     }
 
@@ -117,7 +119,7 @@ $(document).ready(function(){
     }
 
     function updateSubmitClick(){
-        let bookRough = $('form.updateForm').serializeArray();
+        let bookRough = $('form.update-form').serializeArray();
         let book = {};
         $.map(bookRough, function(n, i){
             book[n['name']] = n['value'];
@@ -135,18 +137,18 @@ $(document).ready(function(){
 
     function updateCancelClick(){
         let bookNumber = this.id;
-        $('button#' + bookNumber + '.updateShown').removeClass('updateShown');
-        $('div#' + bookNumber + '.updateBook').hide(333);
-        $('div#' + bookNumber + '.updateBook').html('');
+        $('button#' + bookNumber + '.update-shown').removeClass('update-shown');
+        $('div#' + bookNumber + '.update-book').hide(333);
+        $('div#' + bookNumber + '.update-book').html('');
     }
 
-    $(document).on('click', '.listItem', showBookDetails);
-    $(document).on('click', '.bookDetails', hideBookDetails);
+    $(document).on('click', '.list-item', showBookDetails);
+    $(document).on('click', '.book-details', hideBookDetails);
     $(document).on('click', '.add', addButtonClick);
-    $(document).on('click', '.addCancel', addButtonClick);
+    $(document).on('click', '.add-cancel', addButtonClick);
     $(document).on('click', '.update', updateButtonClick);
     $(document).on('click', '.delete', deleteButtonClick);
-    $(document).on('click', '.updateSubmit', updateSubmitClick);
-    $(document).on('click', '.updateCancel', updateCancelClick);
+    $(document).on('click', '.update-submit', updateSubmitClick);
+    $(document).on('click', '.update-cancel', updateCancelClick);
     getBookList();
 });
