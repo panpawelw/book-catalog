@@ -42,14 +42,14 @@ public class DatabaseBookService implements BookService {
     @Override
     public long addBook(Book book) {
         return jdbcTemplate.update("INSERT INTO books (isbn, title, author, publisher, type) " +
-          "VALUES (?, ?, ?, ?, ?)", book.getIsbn(), book.getTitle(), book.getAuthor(),
+            "VALUES (?, ?, ?, ?, ?)", book.getIsbn(), book.getTitle(), book.getAuthor(),
           book.getPublisher(), book.getType());
     }
 
     @Override
     public boolean updateBook(Book book) {
         return jdbcTemplate.update("UPDATE books SET isbn=?, title=?, author=?, publisher=?, " +
-          "type=? WHERE id=?", book.getIsbn(), book.getTitle(), book.getAuthor(),
+            "type=? WHERE id=?", book.getIsbn(), book.getTitle(), book.getAuthor(),
           book.getPublisher(), book.getType(), book.getId()) == 1;
     }
 
@@ -62,28 +62,28 @@ public class DatabaseBookService implements BookService {
     public Book getBookById(long id) {
         return jdbcTemplate.queryForObject("SELECT * FROM books WHERE id=?",
           new Object[]{id}, (rs, rowNum) ->
-          new Book(
-            rs.getLong("id"),
-            rs.getString("isbn"),
-            rs.getString("title"),
-            rs.getString("author"),
-            rs.getString("publisher"),
-            rs.getString("type")
-          ));
+            new Book(
+              rs.getLong("id"),
+              rs.getString("isbn"),
+              rs.getString("title"),
+              rs.getString("author"),
+              rs.getString("publisher"),
+              rs.getString("type")
+            ));
     }
-
     @Override
     public Map<Long, Book> getBooks() {
         Map<Long, Book> list = new HashMap<>();
         List<Map<String, Object>> tempList = jdbcTemplate.queryForList("SELECT * FROM books");
         for (Map<String, Object> map : tempList) {
-            Book book = new Book();
-            book.setId((Long) map.get("id"));
-            book.setIsbn((String) map.get("isbn"));
-            book.setTitle((String) map.get("title"));
-            book.setAuthor((String) map.get("author"));
-            book.setPublisher((String) map.get("publisher"));
-            list.put(book.getId(), book);
+            list.put((long) map.get("id"),
+              new Book(
+                (long) map.get("id"),
+                (String) map.get("isbn"),
+                (String) map.get("title"),
+                (String) map.get("author"),
+                (String) map.get("publisher"),
+                (String) map.get("type")));
         }
         return list;
     }
