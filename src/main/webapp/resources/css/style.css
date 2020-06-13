@@ -31,3 +31,14 @@ table, td, tr {
     margin: auto;
     border: 2px black solid;
 }
+.add-book-button {
+    margin-top: 2rem;
+}
+
+.database-selection {
+    border: 1px solid black;
+    border-radius: 5px;
+    width: fit-content;
+    margin: 2rem auto;
+    padding: 0 1rem 1rem 1rem;
+}

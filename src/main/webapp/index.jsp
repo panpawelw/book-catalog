@@ -49,8 +49,9 @@
         </table>
     </form>
 </div>
-<div>
-    <input type="radio" id="memory-database" name="database" value="memory">
+<div class="database-selection">
+    <p>Select database type:</p>
+    <input type="radio" id="memory-database" name="database" value="memory" checked>
     <label for="memory-database">memory</label>
     <input type="radio" id="mysql-database" name="database" value="mysql">
     <label for="mysql-database">mySQL</label>
