@@ -5,8 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,11 +24,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/books")
 public class BookController {
 
-    private final BookService bookService;
+    private BookService bookService;
 
     @Autowired
     public BookController(DatabaseBookService bookService) {
         this.bookService = bookService;
+    }
+
+    @Autowired
+    @GetMapping("/mysqldatabase")
+    public void switchToMySQLDatabase() {
+        this.bookService = new DatabaseBookService();
+    }
+
+    @GetMapping("/memorydatabase")
+    public void switchToMemoryDatabase() {
+        this.bookService = new MemoryBookService();
     }
 
     @GetMapping("/")

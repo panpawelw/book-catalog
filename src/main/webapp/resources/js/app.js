@@ -142,6 +142,16 @@ $(document).ready(function(){
         $('div#' + bookNumber + '.update-book').html('');
     }
 
+    function switchToMemoryDatabase(){
+        console.log('switching to memory database');
+        window.location = baseURL + 'memorydatabase/';
+    }
+
+    function switchToMysqlDatabase(){
+        console.log('switching to MySQL database');
+        window.location = baseURL + 'mysqldatabase/';
+    }
+
     $(document).on('click', '.list-item', showBookDetails);
     $(document).on('click', '.book-details', hideBookDetails);
     $(document).on('click', '.add', addButtonClick);
@@ -150,5 +160,7 @@ $(document).ready(function(){
     $(document).on('click', '.delete', deleteButtonClick);
     $(document).on('click', '.update-submit', updateSubmitClick);
     $(document).on('click', '.update-cancel', updateCancelClick);
+    $(document).on('click', '#memory-database', switchToMemoryDatabase);
+    $(document).on('click', '#mysql-database', switchToMysqlDatabase);
     getBookList();
 });
