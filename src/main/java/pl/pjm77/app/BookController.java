@@ -5,9 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,21 +23,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     private BookService bookService;
+    private static ApplicationContext context;
 
-    @Autowired
-    public BookController(DatabaseBookService bookService) {
+    public BookController(MemoryBookService bookService, ApplicationContext context) {
         this.bookService = bookService;
+        BookController.context = context;
     }
 
-    @Autowired
     @GetMapping("/mysqldatabase")
     public void switchToMySQLDatabase() {
-        this.bookService = new DatabaseBookService();
+        this.bookService = context.getBean(DatabaseBookService.class);
+        System.out.println("database");
     }
 
     @GetMapping("/memorydatabase")
     public void switchToMemoryDatabase() {
-        this.bookService = new MemoryBookService();
+        this.bookService = context.getBean(MemoryBookService.class);
+        System.out.println("memory");
     }
 
     @GetMapping("/")

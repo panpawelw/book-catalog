@@ -40,4 +40,9 @@ public class AppConfig implements WebMvcConfigurer {
         driverManagerDataSource.setPassword("mojSQL");
         return driverManagerDataSource;
     }
+
+    @Bean
+    public DatabaseBookService databaseBookService() {
+        return new DatabaseBookService(dataSource());
+    }
 }

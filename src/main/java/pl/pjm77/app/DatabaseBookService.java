@@ -1,12 +1,11 @@
 package pl.pjm77.app;
 
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,8 +13,7 @@ public class DatabaseBookService implements BookService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public DatabaseBookService(DataSource dataSource) {
+    public DatabaseBookService(DriverManagerDataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.execute("DROP TABLE IF EXISTS books");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS books (id BIGINT AUTO_INCREMENT NOT " +

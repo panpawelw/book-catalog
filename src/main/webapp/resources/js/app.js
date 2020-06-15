@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     const baseURL = window.location.pathname + 'books/';
     let bookList = $('ul.book-list');
@@ -8,22 +8,27 @@ $(document).ready(function(){
         $.ajax({
             type: 'GET',
             url: baseURL,
-            dataType: 'JSON'})
-            .done(function(books){
+            dataType: 'JSON'
+        })
+            .done(function (books) {
                 bookList.empty();
-                for(let book in books) {
+                for (let book in books) {
                     bookList.append('<li class="list-item" id=' + books[book].id + '> ' + books[book].id + '. "' + books[book].title + '" ' + books[book].author)
                         .append('<button class="update" id="' + books[book].id + '">update</button><button class="delete" id="' + books[book].id + '">delete</button>')
                         .append('<div class="book-details" id="' + books[book].id + '"></div><div class="update-book" id="' + books[book].id + '"></div>');
                 }
+                console.log('book list obtained!')
             })
-            .fail(function(){alert('Error!')})
-            .always(function(){});
+            .fail(function () {
+                alert('Error!')
+            })
+            .always(function () {
+            });
     }
 
-    function showBookDetails(){
+    function showBookDetails() {
         let bookNumber = this.id;
-        if(!$(this).hasClass('details-shown')){
+        if (!$(this).hasClass('details-shown')) {
             $(this).addClass('details-shown');
             $('div#' + bookNumber + '.book-details').hide(1);
             $.ajax({
@@ -31,7 +36,7 @@ $(document).ready(function(){
                 url: baseURL + bookNumber,
                 dataType: 'JSON'
             })
-                .done(function(book){
+                .done(function (book) {
                     let html = $('<table>');
                     for (let key in book) {
                         html.append($('<tr>')
@@ -43,43 +48,43 @@ $(document).ready(function(){
                     $('div#' + bookNumber + '.book-details').html(html);
                     $('div#' + bookNumber + '.book-details').show(333);
                 });
-        }else {
+        } else {
             $(this).removeClass('details-shown');
             $('div#' + bookNumber + '.book-details').hide(333);
         }
     }
 
-    function hideBookDetails(){
+    function hideBookDetails() {
         $(this).hide(333);
-        $('li#'+ this.id +'.details-shown').removeClass('details-shown');
+        $('li#' + this.id + '.details-shown').removeClass('details-shown');
     }
 
-    function addButtonClick(){
+    function addButtonClick() {
         $('div.add-book').toggle(333);
     }
 
-    function updateButtonClick(){
+    function updateButtonClick() {
         let bookNumber = this.id;
-        if(!$(this).hasClass('update-shown')){
+        if (!$(this).hasClass('update-shown')) {
             $(this).addClass('update-shown');
             $.ajax({
                 type: 'GET',
                 url: baseURL + bookNumber,
                 dataType: 'JSON'
             })
-                .done(function(book){
+                .done(function (book) {
                     let html = '<form class="update-form" id="';
                     html += bookNumber;
-                    html += action='"books/update/';
+                    html += action = '"books/update/';
                     html += bookNumber;
                     html += '" method="put">';
                     for (let key in book) {
-                        if(key==='id'){
+                        if (key === 'id') {
                             html += '<input type="hidden" id="id" name="id" value="';
                             html += book[key].toString();
                             html += '"/>';
-                            html +='<table>';
-                        }else{
+                            html += '<table>';
+                        } else {
                             html += '<tr><td><label for="';
                             html += key.toString();
                             html += '">';
@@ -101,27 +106,27 @@ $(document).ready(function(){
                     $('div#' + bookNumber + '.update-book').append(html);
                     $('div#' + bookNumber + '.update-book').show(333);
                 });
-        }else{
+        } else {
             $(this).removeClass('update-shown');
             $('div#' + bookNumber + '.update-book').hide(333);
             $('div#' + bookNumber + '.update-book').html('');
         }
     }
 
-    function deleteButtonClick(){
+    function deleteButtonClick() {
         $.ajax({
             type: 'DELETE',
             url: baseURL + this.id,
         })
-            .done(function(){
+            .done(function () {
                 getBookList();
             })
     }
 
-    function updateSubmitClick(){
+    function updateSubmitClick() {
         let bookRough = $('form.update-form').serializeArray();
         let book = {};
-        $.map(bookRough, function(n, i){
+        $.map(bookRough, function (n, i) {
             book[n['name']] = n['value'];
         });
         book.id = Number(book.id);
@@ -130,26 +135,34 @@ $(document).ready(function(){
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(book),
-        }).done(function (){
+        }).done(function () {
             getBookList();
         });
     }
 
-    function updateCancelClick(){
+    function updateCancelClick() {
         let bookNumber = this.id;
         $('button#' + bookNumber + '.update-shown').removeClass('update-shown');
         $('div#' + bookNumber + '.update-book').hide(333);
         $('div#' + bookNumber + '.update-book').html('');
     }
 
-    function switchToMemoryDatabase(){
-        console.log('switching to memory database');
-        window.location = baseURL + 'memorydatabase/';
+    function switchToMemoryDatabase() {
+        $.get(baseURL + 'memorydatabase/', function () {
+        }).done(function () {
+            console.log('start');
+            setTimeout(function () {
+                getBookList();},250);
+        })
     }
 
-    function switchToMysqlDatabase(){
-        console.log('switching to MySQL database');
-        window.location = baseURL + 'mysqldatabase/';
+    function switchToMysqlDatabase() {
+        $.get(baseURL + 'mysqldatabase/', function () {
+        }).done(function () {
+            console.log('start');
+            setTimeout(function () {
+                getBookList();},250);
+        })
     }
 
     $(document).on('click', '.list-item', showBookDetails);
