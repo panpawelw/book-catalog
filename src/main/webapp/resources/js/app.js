@@ -17,7 +17,6 @@ $(document).ready(function () {
                         .append('<button class="update" id="' + books[book].id + '">update</button><button class="delete" id="' + books[book].id + '">delete</button>')
                         .append('<div class="book-details" id="' + books[book].id + '"></div><div class="update-book" id="' + books[book].id + '"></div>');
                 }
-                console.log('book list obtained!')
             })
             .fail(function () {
                 alert('Error!')
@@ -45,8 +44,7 @@ $(document).ready(function () {
                             .append($('</tr>')))
                     }
                     html.append($('</table>'));
-                    $('div#' + bookNumber + '.book-details').html(html);
-                    $('div#' + bookNumber + '.book-details').show(333);
+                    $(`div#${bookNumber}.book-details`).html(html).show(333);
                 });
         } else {
             $(this).removeClass('details-shown');
@@ -65,6 +63,7 @@ $(document).ready(function () {
 
     function updateButtonClick() {
         let bookNumber = this.id;
+        const updateContainer = $(`div#${bookNumber}.update-book`);
         if (!$(this).hasClass('update-shown')) {
             $(this).addClass('update-shown');
             $.ajax({
@@ -103,13 +102,11 @@ $(document).ready(function () {
                     html += '" type="reset" class="update-cancel">Cancel</button></td>';
                     html += '<td><input class="update-submit" type="submit" value="Edit this' +
                         ' book entry"/></td></tr></table></form>';
-                    $('div#' + bookNumber + '.update-book').append(html);
-                    $('div#' + bookNumber + '.update-book').show(333);
+                    updateContainer.append(html).show(333);
                 });
         } else {
             $(this).removeClass('update-shown');
-            $('div#' + bookNumber + '.update-book').hide(333);
-            $('div#' + bookNumber + '.update-book').html('');
+            updateContainer.hide(333).html('');
         }
     }
 
@@ -143,25 +140,22 @@ $(document).ready(function () {
     function updateCancelClick() {
         let bookNumber = this.id;
         $('button#' + bookNumber + '.update-shown').removeClass('update-shown');
-        $('div#' + bookNumber + '.update-book').hide(333);
-        $('div#' + bookNumber + '.update-book').html('');
+        $(`div#${bookNumber}.update-book`).hide(333).html('');
     }
 
     function switchToMemoryDatabase() {
-        $.get(baseURL + 'memorydatabase/', function () {
+        $.get(baseURL + 'memorydatabase/', { async: false }, function () {
         }).done(function () {
             console.log('start');
-            setTimeout(function () {
-                getBookList();},250);
+                getBookList();
         })
     }
 
     function switchToMysqlDatabase() {
-        $.get(baseURL + 'mysqldatabase/', function () {
+        $.get(baseURL + 'mysqldatabase/', { async: false }, function () {
         }).done(function () {
             console.log('start');
-            setTimeout(function () {
-                getBookList();},250);
+                getBookList();
         })
     }
 

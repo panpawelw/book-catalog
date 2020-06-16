@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +43,9 @@
                 <td><input id='type' type='text' name='type'/></td>
             </tr>
             <tr>
-                <td><button type='reset' class='add-cancel'>Cancel</button></td>
+                <td>
+                    <button type='reset' class='add-cancel'>Cancel</button>
+                </td>
                 <td><input type='submit' value='Add this book to database'/></td>
             </tr>
         </table>
@@ -56,7 +58,8 @@
     <input type="radio" id="mysql-database" name="database" value="mysql">
     <label for="mysql-database">mySQL</label>
 </div>
-<script src='resources/js/jquery-3.3.1.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="></script>
 <script src='resources/js/app.js'></script>
 </body>
 </html>

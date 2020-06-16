@@ -24,7 +24,7 @@ public class DatabaseBookService implements BookService {
           "Helion", "programming"));
         this.addBook(new Book("9788324627738", "Rusz glowa, Java",
           "Sierra Kathy, Bates Bert", "Helion", "programming"));
-        this.addBook(new Book("9780130819338", "Java 2. Podstawy.",
+        this.addBook(new Book("9780130819338", "Java 2. Podstawy",
           "Cay Horstmann, Gary Cornell", "Helion", "programming"));
         this.addBook(new Book("9781932394856", "Test Driven", "Lance Koskela",
           "Manning", "programming"));
@@ -33,7 +33,7 @@ public class DatabaseBookService implements BookService {
         this.addBook(new Book("9780132350884", "Clean Code", "Robert C. Martin",
           "Prentice Hall", "programming"));
         this.addBook(new Book("9780596007126", "Head First. Design Patterns",
-          "Eric Freeman, Bert Bates. Kathy Sierra, Elisabeth Robson", "O'Reilly",
+          "Eric Freeman, Bert Bates, Kathy Sierra, Elisabeth Robson", "O'Reilly",
           "programming"));
     }
 

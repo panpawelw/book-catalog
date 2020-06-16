@@ -33,13 +33,11 @@ public class BookController {
     @GetMapping("/mysqldatabase")
     public void switchToMySQLDatabase() {
         this.bookService = context.getBean(DatabaseBookService.class);
-        System.out.println("database");
     }
 
     @GetMapping("/memorydatabase")
     public void switchToMemoryDatabase() {
         this.bookService = context.getBean(MemoryBookService.class);
-        System.out.println("memory");
     }
 
     @GetMapping("/")
