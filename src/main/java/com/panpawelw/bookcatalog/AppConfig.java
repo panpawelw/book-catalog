@@ -1,4 +1,4 @@
-package pl.pjm77.app;
+package com.panpawelw.bookcatalog;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "pl.pjm77")
+@ComponentScan(basePackages = "com.panpawelw")
 public class AppConfig implements WebMvcConfigurer {
 
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

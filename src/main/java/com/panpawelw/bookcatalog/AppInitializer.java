@@ -1,4 +1,4 @@
-package pl.pjm77.app;
+package com.panpawelw.bookcatalog;
 
 import javax.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;

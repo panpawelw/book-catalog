@@ -1,4 +1,4 @@
-package pl.pjm77.app;
+package com.panpawelw.bookcatalog;
 
 import java.util.HashMap;
 import java.util.Map;

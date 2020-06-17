@@ -1,4 +1,4 @@
-package pl.pjm77.app;
+package com.panpawelw.bookcatalog;
 
 public class Book {
 

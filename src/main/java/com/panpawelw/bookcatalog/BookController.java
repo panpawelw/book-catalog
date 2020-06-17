@@ -1,4 +1,4 @@
-package pl.pjm77.app;
+package com.panpawelw.bookcatalog;
 
 import java.io.IOException;
 import java.util.Map;
