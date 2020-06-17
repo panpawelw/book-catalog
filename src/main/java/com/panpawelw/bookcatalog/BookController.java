@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 @RequestMapping("/books")
@@ -53,9 +54,12 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public void addBook(@RequestParam String isbn, String title, String author, String publisher, String type,
-                        HttpServletRequest request, HttpServletResponse response) {
-        bookService.addBook(new Book(isbn, title, author, publisher, type));
+    public void addBook(@RequestParam String isbn, String title, String author, String publisher,
+                        String type, HttpServletRequest request, HttpServletResponse response,
+                        RedirectAttributes redirectAttributes) {
+        if(!bookService.addBook(new Book(isbn, title, author, publisher, type))) {
+            System.out.println("Error adding book!");
+        }
         try {
             response.sendRedirect(request.getContextPath());
         } catch (IOException e) {
@@ -66,11 +70,16 @@ public class BookController {
     @PutMapping("/update/{bookId}")
     @ResponseBody
     public void updateBook(@PathVariable long bookId, @RequestBody() Book book) {
-        bookService.updateBook(bookId, book);	}
+        if(!bookService.updateBook(bookId, book)) {
+            System.out.println("Error updating book!");
+        }
+    }
 
     @DeleteMapping("/{bookId}")
     @ResponseBody
     public void deleteBook(@PathVariable long bookId) {
-        bookService.deleteBook(bookId);
+        if(!bookService.deleteBook(bookId)) {
+            System.out.println("Error deleting book!");
+        }
     }
 }

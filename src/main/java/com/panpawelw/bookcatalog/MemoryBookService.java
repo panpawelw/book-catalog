@@ -43,11 +43,10 @@ public class MemoryBookService implements BookService {
     }
 
     @Override
-    public long addBook(Book book) {
+    public boolean addBook(Book book) {
         long idCounter = getNextFreeId();
         book.setId(idCounter);
-        list.put(idCounter, book);
-        return idCounter;
+        return list.put(idCounter, book) == null;
     }
 
     @Override

@@ -38,10 +38,10 @@ public class DatabaseBookService implements BookService {
     }
 
     @Override
-    public long addBook(Book book) {
+    public boolean addBook(Book book) {
         return jdbcTemplate.update("INSERT INTO books (isbn, title, author, publisher, type) " +
             "VALUES (?, ?, ?, ?, ?)", book.getIsbn(), book.getTitle(), book.getAuthor(),
-          book.getPublisher(), book.getType());
+          book.getPublisher(), book.getType()) == 1;
     }
 
     @Override

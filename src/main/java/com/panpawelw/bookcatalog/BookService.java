@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface BookService {
 
-    long addBook(Book book);
+    boolean addBook(Book book);
 
     boolean updateBook(long id, Book book);
 

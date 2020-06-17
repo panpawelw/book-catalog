@@ -58,6 +58,7 @@
     <input type="radio" id="mysql-database" name="database" value="mysql">
     <label for="mysql-database">mySQL</label>
 </div>
+<span id="myvar">${error}</span>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="></script>
 <script src='resources/js/app.js'></script>

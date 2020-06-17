@@ -19,7 +19,7 @@ $(document).ready(function () {
                 }
             })
             .fail(function () {
-                alert('Error!')
+                alert('Error getting book list!')
             })
             .always(function () {
             });
@@ -45,6 +45,9 @@ $(document).ready(function () {
                     }
                     html.append($('</table>'));
                     $(`div#${bookNumber}.book-details`).html(html).show(333);
+                })
+                .fail(function () {
+                    alert('Error getting book details!')
                 });
         } else {
             $(this).removeClass('details-shown');
@@ -103,6 +106,9 @@ $(document).ready(function () {
                     html += '<td><input class="update-submit" type="submit" value="Edit this' +
                         ' book entry"/></td></tr></table></form>';
                     updateContainer.append(html).show(333);
+                })
+                .fail(function () {
+                    alert('Error updating book details!')
                 });
         } else {
             $(this).removeClass('update-shown');
@@ -118,6 +124,9 @@ $(document).ready(function () {
             .done(function () {
                 getBookList();
             })
+            .fail(function () {
+                alert('Error getting book list!')
+            });
     }
 
     function updateSubmitClick() {
@@ -132,9 +141,13 @@ $(document).ready(function () {
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(book),
-        }).done(function () {
-            getBookList();
-        });
+        })
+            .done(function () {
+                getBookList();
+            })
+            .fail(function () {
+                alert('Error getting book list!')
+            });
     }
 
     function updateCancelClick() {
@@ -144,18 +157,17 @@ $(document).ready(function () {
     }
 
     function switchToMemoryDatabase() {
-        $.get(baseURL + 'memorydatabase/', { async: false }, function () {
+        $.get(baseURL + 'memorydatabase/', {async: false}, function () {
         }).done(function () {
-            console.log('start');
-                getBookList();
+            getBookList();
         })
     }
 
     function switchToMysqlDatabase() {
-        $.get(baseURL + 'mysqldatabase/', { async: false }, function () {
+        $.get(baseURL + 'mysqldatabase/', {async: false}, function () {
         }).done(function () {
             console.log('start');
-                getBookList();
+            getBookList();
         })
     }
 
