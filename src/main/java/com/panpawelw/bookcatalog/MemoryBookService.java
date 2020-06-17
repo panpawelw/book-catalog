@@ -39,8 +39,7 @@ public class MemoryBookService implements BookService {
     }
 
     private long getNextFreeId() {
-        nextId++;
-        return nextId;
+        return ++nextId;
     }
 
     @Override
@@ -48,23 +47,19 @@ public class MemoryBookService implements BookService {
         long idCounter = getNextFreeId();
         book.setId(idCounter);
         list.put(idCounter, book);
-        return book.getId();
+        return idCounter;
     }
 
     @Override
     public boolean updateBook(long id, Book book) {
-        if (book != null && id != 0) {
-            list.replace(book.getId(), book);
-        }
-        return true;
+        if (book == null || id <= 0) return false;
+        return list.replace(id, book) != null;
     }
 
     @Override
     public boolean deleteBook(long id) {
-        if (id > 0 && list.get(id) != null) {
-            list.remove(id);
-        }
-        return true;
+        if (id <= 0 || list.get(id) == null) return false;
+        return list.remove(id) != null;
     }
 
     @Override
