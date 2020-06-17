@@ -52,8 +52,8 @@ public class MemoryBookService implements BookService {
     }
 
     @Override
-    public boolean updateBook(Book book) {
-        if (book != null && book.getId() != 0) {
+    public boolean updateBook(long id, Book book) {
+        if (book != null && id != 0) {
             list.replace(book.getId(), book);
         }
         return true;

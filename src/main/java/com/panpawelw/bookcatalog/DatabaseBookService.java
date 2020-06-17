@@ -45,10 +45,10 @@ public class DatabaseBookService implements BookService {
     }
 
     @Override
-    public boolean updateBook(Book book) {
+    public boolean updateBook(long id, Book book) {
         return jdbcTemplate.update("UPDATE books SET isbn=?, title=?, author=?, publisher=?, " +
             "type=? WHERE id=?", book.getIsbn(), book.getTitle(), book.getAuthor(),
-          book.getPublisher(), book.getType(), book.getId()) == 1;
+          book.getPublisher(), book.getType(), id) == 1;
     }
 
     @Override

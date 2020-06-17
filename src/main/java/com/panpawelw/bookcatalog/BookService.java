@@ -6,7 +6,7 @@ public interface BookService {
 
     long addBook(Book book);
 
-    boolean updateBook(Book book);
+    boolean updateBook(long id, Book book);
 
     boolean deleteBook(long id);
 
