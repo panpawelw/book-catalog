@@ -14,8 +14,7 @@ $(document).ready(function () {
                 bookList.append(`
                     <li class="list-item">
                         <div id="${books[book].id}">
-                            ${books[book].id}."${books[book].title}" ${books[book].author}
-                            <br>
+                            ${books[book].id}."${books[book].title}" ${books[book].author}<br>
                             <button class="details">details</button>
                             <button class="update">update</button>
                             <button class="delete">delete</button>
@@ -25,12 +24,9 @@ $(document).ready(function () {
                     </li>
                 `);
             }
-        })
-            .fail(function () {
-                alert('Error getting book list!')
-            })
-            .always(function () {
-            });
+        }).fail(function () {
+            alert('Error getting book list!')
+        });
     }
 
     function showBookDetails() {
@@ -87,36 +83,40 @@ $(document).ready(function () {
                 dataType: 'JSON'
             })
                 .done(function (book) {
-                    let html = '<form class="update-form" id="';
-                    html += bookNumber;
-                    html += action = '"books/update/';
-                    html += bookNumber;
-                    html += '" method="put">';
+                    let html = `
+                        <form class="update-form" action="books/update/${bookNumber}" method="put">
+                    `;
                     for (let key in book) {
                         if (key === 'id') {
-                            html += '<input type="hidden" id="id" name="id" value="';
-                            html += book[key].toString();
-                            html += '"/>';
-                            html += '<table>';
+                            html += `<input type="hidden" id="id" name="id" value="${book[key]}"/>
+                                <table>`;
                         } else {
-                            html += '<tr><td><label for="';
-                            html += key.toString();
-                            html += '">';
-                            html += key.toString();
-                            html += '</td><td><input id="';
-                            html += key.toString();
-                            html += '" type="text" name="';
-                            html += key.toString();
-                            html += '" value="';
-                            html += book[key].toString();
-                            html += '"/></td>';
+                            html += `
+                                <tr>
+                                    <td>
+                                        <label for="${key}">${key}</label>
+                                    </td>
+                                    <td>
+                                        <input id="${key}" name="${key}" 
+                                            type="text" value="${book[key]}"/>
+                                    </td>
+                                </tr>
+                            `;
                         }
                     }
-                    html += '<tr><td><button id="'
-                    html += bookNumber;
-                    html += '" type="reset" class="update-cancel">Cancel</button></td>';
-                    html += '<td><input class="update-submit" type="submit" value="Edit this' +
-                        ' book entry"/></td></tr></table></form>';
+                    html += `
+                                <tr>
+                                    <td>
+                                        <button id="${bookNumber}" type="reset" 
+                                            class="update-cancel">Cancel</button>
+                                    </td>
+                                    <td>
+                                        <input class="update-submit" type="button" 
+                                        value="Edit this book entry"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>`;
                     $(updateContainer).append(html).show(333);
                 })
                 .fail(function () {
@@ -158,7 +158,7 @@ $(document).ready(function () {
                 getBookList();
             })
             .fail(function () {
-                alert('Error getting book list!')
+                alert('Error updating book details')
             });
     }
 
