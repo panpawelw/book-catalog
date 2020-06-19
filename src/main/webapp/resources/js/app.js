@@ -15,11 +15,11 @@ $(document).ready(function () {
                     <li class="list-item">
                         <div id="${books[book].id}">
                             ${books[book].id}."${books[book].title}" ${books[book].author}<br>
-                            <button class="details">details</button>
-                            <button class="update">update</button>
+                            <button id="details-button-${books[book].id}" class="details">details</button>
+                            <button id="update-button-${books[book].id}" class="update">update</button>
                             <button class="delete">delete</button>
-                            <div class="book-details"></div>
-                            <div class="update-book"></div>
+                            <div id="details-div-${books[book].id}" class="book-details ${books[book].id}"></div>
+                            <div id="update-div-${books[book].id}" class="update-book ${books[book].id}"></div>
                         </div>
                     </li>
                 `);
@@ -107,12 +107,12 @@ $(document).ready(function () {
                     html += `
                                 <tr>
                                     <td>
-                                        <button id="${bookNumber}" type="reset" 
-                                            class="update-cancel">Cancel</button>
+                                        <button type="reset" class="update-cancel"
+                                            id="update-cancel-button-${bookNumber}">Cancel</button>
                                     </td>
                                     <td>
-                                        <input class="update-submit" type="button" 
-                                        value="Edit this book entry"/>
+                                        <input id="update-submit-button-${bookNumber}" type="button" 
+                                            class="update-submit" value="Edit this book entry"/>
                                     </td>
                                 </tr>
                             </table>
@@ -163,9 +163,10 @@ $(document).ready(function () {
     }
 
     function updateCancelClick() {
-        let bookNumber = this.id;
-        $('button#' + bookNumber + '.update-shown').removeClass('update-shown');
-        $(`div#${bookNumber}.update-book`).hide(333).html('');
+        const bookNumber = this.id.split('-')[3];
+        document.getElementById(`update-button-${bookNumber}`)
+            .classList.remove('update-shown');
+        $(`#update-div-${bookNumber}`).hide(333).html('');
     }
 
     function switchToMemoryDatabase() {
