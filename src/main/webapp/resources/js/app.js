@@ -12,28 +12,28 @@ $(document).ready(function () {
             bookList.empty();
             for (let book in books) {
                 bookList.append(`
-                    <li class="list-item">
+                    <li id="book-${books[book].id}">
                         <div id="${books[book].id}">
                             ${books[book].id}."${books[book].title}" ${books[book].author}<br>
                             <button id="details-button-${books[book].id}" class="details">details</button>
                             <button id="update-button-${books[book].id}" class="update">update</button>
                             <button class="delete">delete</button>
-                            <div id="details-div-${books[book].id}" class="book-details ${books[book].id}"></div>
-                            <div id="update-div-${books[book].id}" class="update-book ${books[book].id}"></div>
+                            <div id="details-div-${books[book].id}" class="book-details"></div>
+                            <div id="update-div-${books[book].id}" class="update-book"></div>
                         </div>
                     </li>
                 `);
             }
         }).fail(function () {
-            alert('Error getting book list!')
+            alert('Error retrieving book list!')
         });
     }
 
     function showBookDetails() {
-        let bookNumber = this.id;
-        if (!$(this).hasClass('details-shown')) {
-            $(this).addClass('details-shown');
-            $('div#' + bookNumber + '.book-details').hide(1);
+        let bookNumber = this.parentNode.id;
+        if (!$(`li#book-${bookNumber}`).hasClass('details-shown')) {
+            $(`li#book-${bookNumber}`).addClass('details-shown');
+            $(`div#details-div-${bookNumber}`).hide(1);
             $.ajax({
                 type: 'GET',
                 url: baseURL + bookNumber,
@@ -48,20 +48,20 @@ $(document).ready(function () {
                             .append($('</tr>')))
                     }
                     html.append($('</table>'));
-                    $(`div#${bookNumber}.book-details`).html(html).show(333);
+                    $(`div#details-div-${bookNumber}`).html(html).show(333);
                 })
                 .fail(function () {
-                    alert('Error getting book details!')
+                    alert('Error retrieving book details!')
                 });
         } else {
-            $(this).removeClass('details-shown');
-            $('div#' + bookNumber + '.book-details').hide(333);
+            $(`li#book-${bookNumber}`).removeClass('details-shown');
+            $(`div#details-div-${bookNumber}`).hide(333);
         }
     }
 
     function hideBookDetails() {
         $(this).hide(333);
-        $('li#' + this.id + '.details-shown').removeClass('details-shown');
+        $(`li#book-${this.parentNode.id}`).removeClass('details-shown');
     }
 
     function toggleBookDetails() {
@@ -75,8 +75,8 @@ $(document).ready(function () {
     function updateButtonClick() {
         let bookNumber = this.parentNode.id;
         const updateContainer = this.parentNode.querySelector('.update-book');
-        if (!$(this).hasClass('update-shown')) {
-            $(this).addClass('update-shown');
+        if (!$(`li#book-${bookNumber}`).hasClass('update-shown')) {
+            $(`li#book-${bookNumber}`).addClass('update-shown');
             $.ajax({
                 type: 'GET',
                 url: baseURL + bookNumber,
@@ -123,7 +123,7 @@ $(document).ready(function () {
                     alert('Error updating book details!')
                 });
         } else {
-            $(this).removeClass('update-shown');
+            $(`li#book-${bookNumber}`).removeClass('update-shown');
             $(updateContainer).hide(333).html('');
         }
     }
@@ -164,7 +164,7 @@ $(document).ready(function () {
 
     function updateCancelClick() {
         const bookNumber = this.id.split('-')[3];
-        document.getElementById(`update-button-${bookNumber}`)
+        document.getElementById(`book-${bookNumber}`)
             .classList.remove('update-shown');
         $(`#update-div-${bookNumber}`).hide(333).html('');
     }
@@ -183,8 +183,8 @@ $(document).ready(function () {
         })
     }
 
-    // $(document).on('click', '.list-item', showBookDetails);
-    // $(document).on('click', '.book-details', hideBookDetails);
+    $(document).on('click', '.details', showBookDetails);
+    $(document).on('click', '.book-details', hideBookDetails);
     $(document).on('click', '.add', addButtonClick);
     $(document).on('click', '.add-cancel', addButtonClick);
     $(document).on('click', '.update', updateButtonClick);
