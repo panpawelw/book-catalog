@@ -45,14 +45,15 @@ $(document).ready(function () {
     }
 
     function toggleBookDetails(bookNumber) {
-        let bookEntry = $(`li#book-${bookNumber}`);
-        console.log(bookEntry);
-        if (bookEntry.hasClass('new-details-shown')) {
-            bookEntry.removeClass('new-details-shown');
-            $(`div#new-details-${bookNumber}`).hide(333);
+        const bookListEntry = $(`li#book-${bookNumber}`);
+        const bookDetailsDiv = $(`div#new-details-${bookNumber}`);
+        if (bookListEntry.hasClass('new-details-shown')) {
+            bookListEntry.removeClass('new-details-shown');
+            bookDetailsDiv.hide(333);
+            setTimeout(function () {bookDetailsDiv.html('');}, 333);
             return;
         }
-        bookEntry.addClass('new-details-shown');
+        bookListEntry.addClass('new-details-shown');
         $.ajax({
             type: 'GET',
             url: baseURL + bookNumber,
@@ -64,35 +65,33 @@ $(document).ready(function () {
                     `;
                 for (let key in book) {
                     if (key === 'id') {
-                        html += `<input type="hidden" id="id" name="id" value="${book[key]}"/>
-                                <table>`;
+                        html += `
+                            <table>
+                                <tr>
+                                    <td><label for="id">id</label></td>
+                                    <td><input id="id" name="id" value="${book[key]}" readonly/></td>
+                                </tr>
+                        `;
                     } else {
                         html += `
-                                <tr>
-                                    <td>
-                                        <label for="${key}">${key}</label>
-                                    </td>
-                                    <td>
-                                        <input id="${key}" name="${key}" 
-                                            type="text" value="${book[key]}"/>
-                                    </td>
-                                </tr>
-                            `;
+                            <tr>
+                                <td><label for="${key}">${key}</label></td>
+                                <td><input id="${key}" name="${key}" 
+                                      type="text" value="${book[key]}" readonly/></td>
+                            </tr>
+                        `;
                     }
                 }
                 html += `
-                                <tr>
-                                    <td>
-                                        <button type="reset" class="update-cancel"
-                                            id="update-cancel-button-${bookNumber}">Cancel</button>
-                                    </td>
-                                    <td>
-                                        <input id="update-submit-button-${bookNumber}" type="button" 
-                                            class="update-submit" value="Edit this book entry"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>`;
+                    <tr id="update-controls" style="display: none;">
+                        <td><button type="reset" class="update-cancel"
+                                id="update-cancel-button-${bookNumber}">Cancel</button></td>
+                        <td><input id="update-submit-button-${bookNumber}" type="button" 
+                                class="update-submit" value="Edit this book entry"/></td>
+                    </tr>
+                    </table>
+                    </form>
+                `;
                 $(`div#new-details-${bookNumber}`).append(html).show(333);
             })
             .fail(function () {
