@@ -17,9 +17,13 @@ $(document).ready(function () {
                             ${books[book].id}."${books[book].title}" ${books[book].author}<br>
                             <button id="details-button-${books[book].id}" class="details">details</button>
                             <button id="update-button-${books[book].id}" class="update">update</button>
+                            <button id="test1-${books[book].id}" class="test1">test1</button>
+                            <button id="test2-${books[book].id}" class="test2">test2</button>
                             <button class="delete">delete</button>
                             <div id="details-div-${books[book].id}" class="book-details"></div>
                             <div id="update-div-${books[book].id}" class="update-book"></div>
+                            <div id="new-details-${books[book].id}" 
+                                class="new-details" style="display: none;"></div>
                         </div>
                     </li>
                 `);
@@ -27,6 +31,77 @@ $(document).ready(function () {
         }).fail(function () {
             alert('Error retrieving book list!')
         });
+    }
+
+    function detailsButtonHandler() {
+        let bookNumber = this.parentNode.id;
+        toggleBookDetails(bookNumber);
+    }
+
+    function updateButtonHandler() {
+        let bookNumber = this.parentNode.id;
+        toggleBookDetails(bookNumber);
+        toggleBookDetailsEdition(bookNumber);
+    }
+
+    function toggleBookDetails(bookNumber) {
+        let bookEntry = $(`li#book-${bookNumber}`);
+        console.log(bookEntry);
+        if (bookEntry.hasClass('new-details-shown')) {
+            bookEntry.removeClass('new-details-shown');
+            $(`div#new-details-${bookNumber}`).hide(333);
+            return;
+        }
+        bookEntry.addClass('new-details-shown');
+        $.ajax({
+            type: 'GET',
+            url: baseURL + bookNumber,
+            dataType: 'JSON'
+        })
+            .done(function (book) {
+                let html = `
+                        <form class="update-form" action="books/update/${bookNumber}" method="put">
+                    `;
+                for (let key in book) {
+                    if (key === 'id') {
+                        html += `<input type="hidden" id="id" name="id" value="${book[key]}"/>
+                                <table>`;
+                    } else {
+                        html += `
+                                <tr>
+                                    <td>
+                                        <label for="${key}">${key}</label>
+                                    </td>
+                                    <td>
+                                        <input id="${key}" name="${key}" 
+                                            type="text" value="${book[key]}"/>
+                                    </td>
+                                </tr>
+                            `;
+                    }
+                }
+                html += `
+                                <tr>
+                                    <td>
+                                        <button type="reset" class="update-cancel"
+                                            id="update-cancel-button-${bookNumber}">Cancel</button>
+                                    </td>
+                                    <td>
+                                        <input id="update-submit-button-${bookNumber}" type="button" 
+                                            class="update-submit" value="Edit this book entry"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>`;
+                $(`div#new-details-${bookNumber}`).append(html).show(333);
+            })
+            .fail(function () {
+                alert('Error retrieving book details!')
+            });
+    }
+
+    function toggleBookDetailsEdition(bookNumber) {
+        console.log('Enable book details edition - book' + bookNumber);
     }
 
     function showBookDetails() {
@@ -62,10 +137,6 @@ $(document).ready(function () {
     function hideBookDetails() {
         $(this).hide(333);
         $(`li#book-${this.parentNode.id}`).removeClass('details-shown');
-    }
-
-    function toggleBookDetails() {
-
     }
 
     function addButtonClick() {
@@ -183,6 +254,8 @@ $(document).ready(function () {
         })
     }
 
+    $(document).on('click', '.test1', detailsButtonHandler);
+    $(document).on('click', '.test2', updateButtonHandler);
     $(document).on('click', '.details', showBookDetails);
     $(document).on('click', '.book-details', hideBookDetails);
     $(document).on('click', '.add', addButtonClick);
