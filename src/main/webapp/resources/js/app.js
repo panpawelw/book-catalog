@@ -35,19 +35,25 @@ $(document).ready(function () {
 
     function detailsButtonHandler() {
         let bookNumber = this.parentNode.id;
-        toggleBookDetails(bookNumber);
+        toggleBookDetails(bookNumber, false);
     }
 
     function updateButtonHandler() {
         let bookNumber = this.parentNode.id;
-        toggleBookDetails(bookNumber);
-        toggleBookDetailsEdition(bookNumber);
+        toggleBookDetails(bookNumber, true);
     }
 
-    function toggleBookDetails(bookNumber) {
+    function toggleBookDetails(bookNumber, editionEnabled) {
         const bookListEntry = $(`li#book-${bookNumber}`);
         const bookDetailsDiv = $(`div#new-details-${bookNumber}`);
         if (bookListEntry.hasClass('new-details-shown')) {
+            if(editionEnabled === true) {
+                for(let input of $(`li#book-${bookNumber} input.editable`)) {
+                    input.toggleAttribute('readonly');
+                }
+                $(`li#book-${bookNumber} tr.update-controls`).toggle();
+                return;
+            }
             bookListEntry.removeClass('new-details-shown');
             bookDetailsDiv.hide(333);
             setTimeout(function () {bookDetailsDiv.html('');}, 333);
@@ -76,14 +82,15 @@ $(document).ready(function () {
                         html += `
                             <tr>
                                 <td><label for="${key}">${key}</label></td>
-                                <td><input id="${key}" name="${key}" 
+                                <td><input id="${key}" name="${key}" class="editable" 
                                       type="text" value="${book[key]}" readonly/></td>
                             </tr>
                         `;
+
                     }
                 }
                 html += `
-                    <tr id="update-controls" style="display: none;">
+                    <tr class="update-controls" style="display: none;">
                         <td><button type="reset" class="update-cancel"
                                 id="update-cancel-button-${bookNumber}">Cancel</button></td>
                         <td><input id="update-submit-button-${bookNumber}" type="button" 
@@ -92,15 +99,18 @@ $(document).ready(function () {
                     </table>
                     </form>
                 `;
-                $(`div#new-details-${bookNumber}`).append(html).show(333);
+                $(`div#new-details-${bookNumber}`).append(html);
+                if(editionEnabled === true) {
+                    for(let input of $(`li#book-${bookNumber} input.editable`)) {
+                        input.toggleAttribute('readonly');
+                    }
+                    $(`li#book-${bookNumber} tr.update-controls`).toggle();
+                }
+                $(`div#new-details-${bookNumber}`).show(333);
             })
             .fail(function () {
                 alert('Error retrieving book details!')
             });
-    }
-
-    function toggleBookDetailsEdition(bookNumber) {
-        console.log('Enable book details edition - book' + bookNumber);
     }
 
     function showBookDetails() {
