@@ -41,22 +41,28 @@ $(document).ready(function () {
     function updateButtonHandler() {
         let bookNumber = this.parentNode.id;
         toggleBookDetails(bookNumber, true);
-    }
+     }
 
-    function toggleBookDetails(bookNumber, editionEnabled) {
+    function toggleBookDetails(bookNumber, edit) {
         const bookListEntry = $(`li#book-${bookNumber}`);
         const bookDetailsDiv = $(`div#new-details-${bookNumber}`);
         if (bookListEntry.hasClass('new-details-shown')) {
-            if(editionEnabled === true) {
-                for(let input of $(`li#book-${bookNumber} input.editable`)) {
-                    input.toggleAttribute('readonly');
-                }
-                $(`li#book-${bookNumber} tr.update-controls`).toggle();
+            if (!bookListEntry.hasClass('edition-enabled') && edit === true) {
+                toggleBookEditControls(bookNumber);
+                bookListEntry.addClass('edition-enabled');
+                return;
+            }
+            if (bookListEntry.hasClass('edition-enabled') && edit === false) {
+                toggleBookEditControls(bookNumber);
+                bookListEntry.removeClass('edition-enabled');
                 return;
             }
             bookListEntry.removeClass('new-details-shown');
+            bookListEntry.removeClass('edition-enabled');
             bookDetailsDiv.hide(333);
-            setTimeout(function () {bookDetailsDiv.html('');}, 333);
+            setTimeout(function () {
+                bookDetailsDiv.html('');
+            }, 333);
             return;
         }
         bookListEntry.addClass('new-details-shown');
@@ -86,7 +92,6 @@ $(document).ready(function () {
                                       type="text" value="${book[key]}" readonly/></td>
                             </tr>
                         `;
-
                     }
                 }
                 html += `
@@ -100,17 +105,22 @@ $(document).ready(function () {
                     </form>
                 `;
                 $(`div#new-details-${bookNumber}`).append(html);
-                if(editionEnabled === true) {
-                    for(let input of $(`li#book-${bookNumber} input.editable`)) {
-                        input.toggleAttribute('readonly');
-                    }
-                    $(`li#book-${bookNumber} tr.update-controls`).toggle();
+                if (edit === true) {
+                    toggleBookEditControls(bookNumber);
+                    bookListEntry.addClass('edition-enabled');
                 }
                 $(`div#new-details-${bookNumber}`).show(333);
             })
             .fail(function () {
                 alert('Error retrieving book details!')
             });
+    }
+
+    function toggleBookEditControls(bookNumber) {
+        for (let input of $(`li#book-${bookNumber} input.editable`)) {
+            input.toggleAttribute('readonly');
+        }
+        $(`li#book-${bookNumber} tr.update-controls`).toggle();
     }
 
     function showBookDetails() {
