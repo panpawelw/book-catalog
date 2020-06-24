@@ -34,31 +34,38 @@ $(document).ready(function () {
     }
 
     function detailsButtonHandler() {
-        let bookNumber = this.parentNode.id;
-        toggleBookDetails(bookNumber, false);
+        const bookNumber = this.parentNode.id;
+        const bookListEntry = $(`li#book-${bookNumber}`);
+        if(bookListEntry.hasClass('new-details-shown')
+            && bookListEntry.hasClass('edition-enabled'))
+        {
+            toggleBookEditControls(bookNumber);
+            return;
+        }
+        toggleBookDetails(bookNumber);
     }
 
     function updateButtonHandler() {
-        let bookNumber = this.parentNode.id;
-        toggleBookDetails(bookNumber, true);
-     }
+        const bookNumber = this.parentNode.id;
+        const bookListEntry = $(`li#book-${bookNumber}`);
+        if(bookListEntry.hasClass('new-details-shown')
+            && bookListEntry.hasClass('edition-enabled'))
+        {
+            toggleBookDetails(bookNumber);
+            return;
+        }
+        if(bookListEntry.hasClass('new-details-shown')) {
+            toggleBookEditControls(bookNumber);
+        } else {
+            toggleBookDetails(bookNumber, function() {toggleBookEditControls(bookNumber)});
+        }
+    }
 
-    function toggleBookDetails(bookNumber, edit) {
+    function toggleBookDetails(bookNumber, callback) {
         const bookListEntry = $(`li#book-${bookNumber}`);
         const bookDetailsDiv = $(`div#new-details-${bookNumber}`);
         if (bookListEntry.hasClass('new-details-shown')) {
-            if (!bookListEntry.hasClass('edition-enabled') && edit === true) {
-                toggleBookEditControls(bookNumber);
-                bookListEntry.addClass('edition-enabled');
-                return;
-            }
-            if (bookListEntry.hasClass('edition-enabled') && edit === false) {
-                toggleBookEditControls(bookNumber);
-                bookListEntry.removeClass('edition-enabled');
-                return;
-            }
-            bookListEntry.removeClass('new-details-shown');
-            bookListEntry.removeClass('edition-enabled');
+            bookListEntry.removeClass('new-details-shown edition-enabled');
             bookDetailsDiv.hide(333);
             setTimeout(function () {
                 bookDetailsDiv.html('');
@@ -70,47 +77,41 @@ $(document).ready(function () {
             type: 'GET',
             url: baseURL + bookNumber,
             dataType: 'JSON'
-        })
-            .done(function (book) {
-                let html = `
-                        <form class="update-form" action="books/update/${bookNumber}" method="put">
-                    `;
-                for (let key in book) {
-                    if (key === 'id') {
-                        html += `
-                            <table>
-                                <tr>
-                                    <td><label for="id">id</label></td>
-                                    <td><input id="id" name="id" value="${book[key]}" readonly/></td>
-                                </tr>
-                        `;
-                    } else {
-                        html += `
+        }).done(function (book) {
+            let html = `
+                <form class="update-form" action="books/update/${bookNumber}" method="put">
+                `;
+            for (let key in book) {
+                if (key === 'id') {
+                    html += `
+                        <table>
                             <tr>
-                                <td><label for="${key}">${key}</label></td>
-                                <td><input id="${key}" name="${key}" class="editable" 
-                                      type="text" value="${book[key]}" readonly/></td>
+                                <td><label for="id">id</label></td>
+                                <td><input id="id" name="id" value="${book[key]}" readonly/></td>
                             </tr>
                         `;
-                    }
+                } else {
+                    html += `
+                        <tr>
+                            <td><label for="${key}">${key}</label></td>
+                            <td><input id="${key}" name="${key}" class="editable" 
+                                type="text" value="${book[key]}" readonly/></td>
+                        </tr>
+                        `;
                 }
-                html += `
-                    <tr class="update-controls" style="display: none;">
-                        <td><button type="reset" class="update-cancel"
-                                id="update-cancel-button-${bookNumber}">Cancel</button></td>
+            }
+            html += `
+                <tr class="update-controls" style="display: none;">
+                    <td><button type="reset" class="update-cancel"
+                        id="update-cancel-button-${bookNumber}">Cancel</button></td>
                         <td><input id="update-submit-button-${bookNumber}" type="button" 
-                                class="update-submit" value="Edit this book entry"/></td>
-                    </tr>
-                    </table>
-                    </form>
+                            class="update-submit" value="Edit this book entry"/></td>
+                </tr></table></form>
                 `;
-                $(`div#new-details-${bookNumber}`).append(html);
-                if (edit === true) {
-                    toggleBookEditControls(bookNumber);
-                    bookListEntry.addClass('edition-enabled');
-                }
-                $(`div#new-details-${bookNumber}`).show(333);
-            })
+            bookDetailsDiv.append(html);
+            if (callback && typeof (callback) === 'function') callback();
+            bookDetailsDiv.show(333);
+        })
             .fail(function () {
                 alert('Error retrieving book details!')
             });
@@ -121,6 +122,7 @@ $(document).ready(function () {
             input.toggleAttribute('readonly');
         }
         $(`li#book-${bookNumber} tr.update-controls`).toggle();
+        $(`li#book-${bookNumber}`).toggleClass('edition-enabled');
     }
 
     function showBookDetails() {
