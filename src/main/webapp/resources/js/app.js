@@ -20,8 +20,6 @@ $(document).ready(function () {
                             <button id="test1-${books[book].id}" class="test1">test1</button>
                             <button id="test2-${books[book].id}" class="test2">test2</button>
                             <button class="delete">delete</button>
-                            <div id="details-div-${books[book].id}" class="book-details"></div>
-                            <div id="update-div-${books[book].id}" class="update-book"></div>
                             <div id="new-details-${books[book].id}" 
                                 class="new-details" style="display: none;"></div>
                         </div>
@@ -59,6 +57,23 @@ $(document).ready(function () {
         } else {
             toggleBookDetails(bookNumber, function() {toggleBookEditControls(bookNumber)});
         }
+    }
+
+    function addButtonHandler() {
+        $('div.add-book').toggle(333);
+    }
+
+    function deleteButtonHandler() {
+        $.ajax({
+            type: 'DELETE',
+            url: baseURL + this.parentNode.id,
+        })
+            .done(function () {
+                getBookList();
+            })
+            .fail(function () {
+                alert('Error deleting book!')
+            });
     }
 
     function toggleBookDetails(bookNumber, callback) {
@@ -125,114 +140,6 @@ $(document).ready(function () {
         $(`li#book-${bookNumber}`).toggleClass('edition-enabled');
     }
 
-    function showBookDetails() {
-        let bookNumber = this.parentNode.id;
-        if (!$(`li#book-${bookNumber}`).hasClass('details-shown')) {
-            $(`li#book-${bookNumber}`).addClass('details-shown');
-            $(`div#details-div-${bookNumber}`).hide(1);
-            $.ajax({
-                type: 'GET',
-                url: baseURL + bookNumber,
-                dataType: 'JSON'
-            })
-                .done(function (book) {
-                    let html = $('<table>');
-                    for (let key in book) {
-                        html.append($('<tr>')
-                            .append($('<td>', {text: key}, '</td>'))
-                            .append($('<td>', {text: book[key]}, '</td>'))
-                            .append($('</tr>')))
-                    }
-                    html.append($('</table>'));
-                    $(`div#details-div-${bookNumber}`).html(html).show(333);
-                })
-                .fail(function () {
-                    alert('Error retrieving book details!')
-                });
-        } else {
-            $(`li#book-${bookNumber}`).removeClass('details-shown');
-            $(`div#details-div-${bookNumber}`).hide(333);
-        }
-    }
-
-    function hideBookDetails() {
-        $(this).hide(333);
-        $(`li#book-${this.parentNode.id}`).removeClass('details-shown');
-    }
-
-    function addButtonClick() {
-        $('div.add-book').toggle(333);
-    }
-
-    function updateButtonClick() {
-        let bookNumber = this.parentNode.id;
-        const updateContainer = this.parentNode.querySelector('.update-book');
-        if (!$(`li#book-${bookNumber}`).hasClass('update-shown')) {
-            $(`li#book-${bookNumber}`).addClass('update-shown');
-            $.ajax({
-                type: 'GET',
-                url: baseURL + bookNumber,
-                dataType: 'JSON'
-            })
-                .done(function (book) {
-                    let html = `
-                        <form class="update-form" action="books/update/${bookNumber}" method="put">
-                    `;
-                    for (let key in book) {
-                        if (key === 'id') {
-                            html += `<input type="hidden" id="id" name="id" value="${book[key]}"/>
-                                <table>`;
-                        } else {
-                            html += `
-                                <tr>
-                                    <td>
-                                        <label for="${key}">${key}</label>
-                                    </td>
-                                    <td>
-                                        <input id="${key}" name="${key}" 
-                                            type="text" value="${book[key]}"/>
-                                    </td>
-                                </tr>
-                            `;
-                        }
-                    }
-                    html += `
-                                <tr>
-                                    <td>
-                                        <button type="reset" class="update-cancel"
-                                            id="update-cancel-button-${bookNumber}">Cancel</button>
-                                    </td>
-                                    <td>
-                                        <input id="update-submit-button-${bookNumber}" type="button" 
-                                            class="update-submit" value="Edit this book entry"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>`;
-                    $(updateContainer).append(html).show(333);
-                })
-                .fail(function () {
-                    alert('Error updating book details!')
-                });
-        } else {
-            $(`li#book-${bookNumber}`).removeClass('update-shown');
-            $(updateContainer).hide(333).html('');
-        }
-    }
-
-    function deleteButtonClick() {
-        $.ajax({
-            type: 'DELETE',
-            url: baseURL + this.parentNode.id,
-        })
-            .done(function () {
-                getBookList();
-            })
-            .fail(function () {
-                alert('Error deleting book!')
-            });
-    }
-
     function updateSubmitClick() {
         let bookRough = $('form.update-form').serializeArray();
         let book = {};
@@ -275,14 +182,12 @@ $(document).ready(function () {
         })
     }
 
-    $(document).on('click', '.test1', detailsButtonHandler);
-    $(document).on('click', '.test2', updateButtonHandler);
-    $(document).on('click', '.details', showBookDetails);
-    $(document).on('click', '.book-details', hideBookDetails);
-    $(document).on('click', '.add', addButtonClick);
-    $(document).on('click', '.add-cancel', addButtonClick);
-    $(document).on('click', '.update', updateButtonClick);
-    $(document).on('click', '.delete', deleteButtonClick);
+    $(document).on('click', '.details', detailsButtonHandler);
+    $(document).on('click', '.book-details', detailsButtonHandler);
+    $(document).on('click', '.add', addButtonHandler);
+    $(document).on('click', '.add-cancel', addButtonHandler);
+    $(document).on('click', '.update', updateButtonHandler);
+    $(document).on('click', '.delete', deleteButtonHandler);
     $(document).on('click', '.update-submit', updateSubmitClick);
     $(document).on('click', '.update-cancel', updateCancelClick);
     $(document).on('click', '#memory-database', switchToMemoryDatabase);
