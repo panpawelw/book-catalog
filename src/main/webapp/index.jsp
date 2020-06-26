@@ -13,13 +13,12 @@
 <br>
 <br>
 <h1 class='title'>Book Catalog</h1>
-<p style="font-weight: normal">click book title to show / hide book details</p>
 <br>
 <div class='list-container'>
     <ul class='book-list'></ul>
 </div>
 <div class="add-book-button">
-    <button class='add'>Add new book</button>
+    <button id='add-button'>Add new book</button>
 </div>
 <div class='add-book'>
     <form action='books/add' method='post'>
@@ -46,7 +45,7 @@
             </tr>
             <tr>
                 <td>
-                    <button type='reset' class='add-cancel'>Cancel</button>
+                    <button type='reset' id='add-cancel'>Cancel</button>
                 </td>
                 <td><input type='submit' value='Add this book to database'/></td>
             </tr>

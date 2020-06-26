@@ -12,16 +12,13 @@ $(document).ready(function () {
             bookList.empty();
             for (let book in books) {
                 bookList.append(`
-                    <li id="book-${books[book].id}">
+                    <li id="book-${books[book].id}" class="book-list-entry">
                         <div id="${books[book].id}">
                             ${books[book].id}."${books[book].title}" ${books[book].author}<br>
-                            <button id="details-button-${books[book].id}" class="details">details</button>
-                            <button id="update-button-${books[book].id}" class="update">update</button>
-                            <button id="test1-${books[book].id}" class="test1">test1</button>
-                            <button id="test2-${books[book].id}" class="test2">test2</button>
-                            <button class="delete">delete</button>
-                            <div id="new-details-${books[book].id}" 
-                                class="new-details" style="display: none;"></div>
+                            <button class="details-button">details</button>
+                            <button class="update-button">update</button>
+                            <button class="delete-button">delete</button>
+                            <div class="details" style="display: none;"></div>
                         </div>
                     </li>
                 `);
@@ -31,10 +28,10 @@ $(document).ready(function () {
         });
     }
 
-    function detailsButtonHandler() {
+    function detailsHandler() {
         const bookNumber = this.parentNode.id;
         const bookListEntry = $(`li#book-${bookNumber}`);
-        if(bookListEntry.hasClass('new-details-shown')
+        if(bookListEntry.hasClass('details-shown')
             && bookListEntry.hasClass('edition-enabled'))
         {
             toggleBookEditControls(bookNumber);
@@ -43,27 +40,27 @@ $(document).ready(function () {
         toggleBookDetails(bookNumber);
     }
 
-    function updateButtonHandler() {
+    function updateHandler() {
         const bookNumber = this.parentNode.id;
         const bookListEntry = $(`li#book-${bookNumber}`);
-        if(bookListEntry.hasClass('new-details-shown')
+        if(bookListEntry.hasClass('details-shown')
             && bookListEntry.hasClass('edition-enabled'))
         {
             toggleBookDetails(bookNumber);
             return;
         }
-        if(bookListEntry.hasClass('new-details-shown')) {
+        if(bookListEntry.hasClass('details-shown')) {
             toggleBookEditControls(bookNumber);
         } else {
             toggleBookDetails(bookNumber, function() {toggleBookEditControls(bookNumber)});
         }
     }
 
-    function addButtonHandler() {
+    function addHandler() {
         $('div.add-book').toggle(333);
     }
 
-    function deleteButtonHandler() {
+    function deleteHandler() {
         $.ajax({
             type: 'DELETE',
             url: baseURL + this.parentNode.id,
@@ -78,16 +75,16 @@ $(document).ready(function () {
 
     function toggleBookDetails(bookNumber, callback) {
         const bookListEntry = $(`li#book-${bookNumber}`);
-        const bookDetailsDiv = $(`div#new-details-${bookNumber}`);
-        if (bookListEntry.hasClass('new-details-shown')) {
-            bookListEntry.removeClass('new-details-shown edition-enabled');
+        const bookDetailsDiv = $(`div#details-${bookNumber}`);
+        if (bookListEntry.hasClass('details-shown')) {
+            bookListEntry.removeClass('details-shown edition-enabled');
             bookDetailsDiv.hide(333);
             setTimeout(function () {
                 bookDetailsDiv.html('');
             }, 333);
             return;
         }
-        bookListEntry.addClass('new-details-shown');
+        bookListEntry.addClass('details-shown');
         $.ajax({
             type: 'GET',
             url: baseURL + bookNumber,
@@ -140,7 +137,7 @@ $(document).ready(function () {
         $(`li#book-${bookNumber}`).toggleClass('edition-enabled');
     }
 
-    function updateSubmitClick() {
+    function updateSubmitHandler() {
         let bookRough = $('form.update-form').serializeArray();
         let book = {};
         $.map(bookRough, function (n, i) {
@@ -161,7 +158,7 @@ $(document).ready(function () {
             });
     }
 
-    function updateCancelClick() {
+    function updateCancelHandler() {
         const bookNumber = this.id.split('-')[3];
         document.getElementById(`book-${bookNumber}`)
             .classList.remove('update-shown');
@@ -182,14 +179,14 @@ $(document).ready(function () {
         })
     }
 
-    $(document).on('click', '.details', detailsButtonHandler);
-    $(document).on('click', '.book-details', detailsButtonHandler);
-    $(document).on('click', '.add', addButtonHandler);
-    $(document).on('click', '.add-cancel', addButtonHandler);
-    $(document).on('click', '.update', updateButtonHandler);
-    $(document).on('click', '.delete', deleteButtonHandler);
-    $(document).on('click', '.update-submit', updateSubmitClick);
-    $(document).on('click', '.update-cancel', updateCancelClick);
+    $(document).on('click', '.details-button', detailsHandler);
+    $(document).on('click', '.book-list-entry', detailsHandler);
+    $(document).on('click', '.update-button', updateHandler);
+    $(document).on('click', '.delete-button', deleteHandler);
+    $(document).on('click', '.update-submit', updateSubmitHandler);
+    $(document).on('click', '.update-cancel', updateCancelHandler);
+    $(document).on('click', '#add-button', addHandler);
+    $(document).on('click', '#add-cancel', addHandler);
     $(document).on('click', '#memory-database', switchToMemoryDatabase);
     $(document).on('click', '#mysql-database', switchToMysqlDatabase);
     getBookList();
