@@ -12,13 +12,14 @@ $(document).ready(function () {
             bookList.empty();
             for (let book in books) {
                 bookList.append(`
-                    <li id="book-${books[book].id}" class="book-list-entry">
+                    <li id="book-${books[book].id}">
                         <div id="${books[book].id}">
                             ${books[book].id}."${books[book].title}" ${books[book].author}<br>
-                            <button class="details-button">details</button>
-                            <button class="update-button">update</button>
-                            <button class="delete-button">delete</button>
-                            <div class="details" style="display: none;"></div>
+                            <button class="btn btn-primary details-button">details</button>
+                            <button class="btn btn-primary update-button">update</button>
+                            <button class="btn btn-primary delete-button">delete</button>
+                            <div id="details-${books[book].id}"class="details" 
+                                style="display: none;"></div>
                         </div>
                     </li>
                 `);
@@ -114,10 +115,10 @@ $(document).ready(function () {
             }
             html += `
                 <tr class="update-controls" style="display: none;">
-                    <td><button type="reset" class="update-cancel"
+                    <td><button type="reset" class="update-cancel btn btn-primary "
                         id="update-cancel-button-${bookNumber}">Cancel</button></td>
                         <td><input id="update-submit-button-${bookNumber}" type="button" 
-                            class="update-submit" value="Edit this book entry"/></td>
+                            class="update-submit btn btn-primary" value="Edit this book entry"/></td>
                 </tr></table></form>
                 `;
             bookDetailsDiv.append(html);
@@ -180,7 +181,6 @@ $(document).ready(function () {
     }
 
     $(document).on('click', '.details-button', detailsHandler);
-    $(document).on('click', '.book-list-entry', detailsHandler);
     $(document).on('click', '.update-button', updateHandler);
     $(document).on('click', '.delete-button', deleteHandler);
     $(document).on('click', '.update-submit', updateSubmitHandler);
