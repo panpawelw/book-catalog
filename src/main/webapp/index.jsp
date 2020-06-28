@@ -12,7 +12,9 @@
 <body>
 <br>
 <br>
-<h1 class='title'>Book Catalog</h1>
+<div class='title tempclass'>
+    <h1>Book Catalog</h1>
+</div>
 <br>
 <div class='list-container'>
     <ul class='book-list'></ul>
@@ -47,12 +49,13 @@
                 <td>
                     <button type='reset' id='add-cancel' class='btn btn-primary'>Cancel</button>
                 </td>
-                <td><input type='submit' class='btn btn-primary' value='Add this book to database'/></td>
+                <td><input type='submit' class='btn btn-primary' value='Add this book to database'/>
+                </td>
             </tr>
         </table>
     </form>
 </div>
-<div class='database-selection'>
+<div class='database-selection tempclass'>
     <p>Select database type:</p>
     <input type='radio' id='memory-database' name='database' value='memory' checked>
     <label for='memory-database'>memory</label>
