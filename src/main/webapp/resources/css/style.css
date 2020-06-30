@@ -7,8 +7,7 @@ body {
 }
 
 .title {
-    color: green;
-    padding: 1rem;
+    color: #101010;
 }
 
 .list-container {
@@ -21,10 +20,8 @@ body {
     padding-left : 0;
 }
 
-.book-details,
-.update-book,
 .add-book {
-    padding: 5px;
+    padding: 1rem;
     display: none;
 }
 
@@ -38,14 +35,20 @@ table, td, tr {
 
 .database-selection {
     padding: 0 1rem 1rem 1rem;
+    margin: 2rem auto;
 }
 
-.tempclass {
-    margin: 2rem auto;
-    background-color: wheat;
+.main-style {
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    background-color: whitesmoke;
     border-radius: 5px;
     width: fit-content;
-    -webkit-box-shadow: inset 0 0 3px 3px rgba(0,0,0,0.75);
-    -moz-box-shadow: inset 0 0 3px 3px rgba(0,0,0,0.75);
-    box-shadow: inset 0 0 3px 3px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
+}
+
+.book-entry {
+    width: 100%;
 }

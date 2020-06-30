@@ -13,7 +13,7 @@ $(document).ready(function () {
             for (let book in books) {
                 bookList.append(`
                     <li id="book-${books[book].id}">
-                        <div id="${books[book].id}">
+                        <div id="${books[book].id}" class="main-style book-entry">
                             ${books[book].id}."${books[book].title}" ${books[book].author}<br>
                             <button class="btn btn-primary details-button">details</button>
                             <button class="btn btn-primary update-button">update</button>
