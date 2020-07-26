@@ -20,21 +20,20 @@ public class DatabaseBookService implements BookService {
           "NULL, isbn VARCHAR(255), title VARCHAR(255), author VARCHAR(255), publisher VARCHAR" +
           "(255), type VARCHAR(255), PRIMARY KEY(id));");
 
-        this.addBook(new Book("9788324631766", "Thinking in Java", "Bruce Eckel",
-          "Helion", "programming"));
-        this.addBook(new Book("9788324627738", "Rusz glowa, Java",
-          "Sierra Kathy, Bates Bert", "Helion", "programming"));
-        this.addBook(new Book("9780130819338", "Java 2. Podstawy",
-          "Cay Horstmann, Gary Cornell", "Helion", "programming"));
-        this.addBook(new Book("9781932394856", "Test Driven", "Lance Koskela",
-          "Manning", "programming"));
-        this.addBook(new Book("9780134685991", "Effective Java", "Joshua Bloch",
-          "Addison - Wesley Professional", "programming"));
-        this.addBook(new Book("9780132350884", "Clean Code", "Robert C. Martin",
-          "Prentice Hall", "programming"));
+        this.addBook(new Book("9788324631766", "Core Java Volume I",
+                "Cay S. Horstmann " ,"Prentice Hall", "programming"));
         this.addBook(new Book("9780596007126", "Head First. Design Patterns",
-          "Eric Freeman, Bert Bates, Kathy Sierra, Elisabeth Robson", "O'Reilly",
-          "programming"));
+                "Eric Freeman, Bert Bates, Kathy Sierra, Elisabeth Robson", "O'Reilly",
+                "programming"));
+        this.addBook(new Book("9781932394856", "Test Driven", "Lance Koskela",
+                "Manning", "programming"));
+        this.addBook(new Book("9780132350884", "Clean Code", "Robert C. Martin",
+                "Prentice Hall", "programming"));
+        this.addBook(new Book("9780134685991", "Effective Java", "Joshua Bloch",
+                "Addison - Wesley Professional", "programming"));
+        this.addBook(new Book("9780134684452",
+                "Domain-Driven Design: Tackling Complexity in the Heart of Software",
+                "Eric Evans","Addison - Wesley Professional", "programming"));
     }
 
     @Override

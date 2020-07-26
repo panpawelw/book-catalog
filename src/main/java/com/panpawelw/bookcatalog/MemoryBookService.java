@@ -15,27 +15,25 @@ public class MemoryBookService implements BookService {
 
         list = new HashMap<>();
         long idCounter = getNextFreeId();
-        list.put(idCounter, new Book(idCounter, "9788324631766", "Thinking in Java", "Bruce Eckel",
-                "Helion", "programming"));
-        idCounter = getNextFreeId();
-        list.put(idCounter, new Book(idCounter, "9788324627738", "Rusz glowa, Java",
-                "Sierra Kathy, Bates Bert", "Helion", "programming"));
-        idCounter = getNextFreeId();
-        list.put(idCounter, new Book(idCounter, "9780130819338", "Java 2. Podstawy",
-                "Cay Horstmann, Gary Cornell", "Helion", "programming"));
-        idCounter = getNextFreeId();
-        list.put(idCounter, new Book(idCounter, "9781932394856", "Test Driven", "Lance Koskela",
-                "Manning", "programming"));
-        idCounter = getNextFreeId();
-        list.put(idCounter, new Book(idCounter, "9780134685991", "Effective Java", "Joshua Bloch",
-                "Addison - Wesley Professional", "programming"));
-        idCounter = getNextFreeId();
-        list.put(idCounter, new Book(idCounter, "9780132350884", "Clean Code", "Robert C. Martin",
-                "Prentice Hall", "programming"));
+        list.put(idCounter, new Book(idCounter, "9788324631766", "Core Java Volume I",
+                "Cay S. Horstmann " ,"Prentice Hall", "programming"));
         idCounter = getNextFreeId();
         list.put(idCounter, new Book(idCounter, "9780596007126", "Head First. Design Patterns",
                 "Eric Freeman, Bert Bates, Kathy Sierra, Elisabeth Robson", "O'Reilly",
                 "programming"));
+        idCounter = getNextFreeId();
+        list.put(idCounter, new Book(idCounter, "9781932394856", "Test Driven", "Lance Koskela",
+                "Manning", "programming"));
+        idCounter = getNextFreeId();
+        list.put(idCounter, new Book(idCounter, "9780132350884", "Clean Code", "Robert C. Martin",
+                "Prentice Hall", "programming"));
+        idCounter = getNextFreeId();
+        list.put(idCounter, new Book(idCounter, "9780134685991", "Effective Java", "Joshua Bloch",
+                "Addison - Wesley Professional", "programming"));
+        idCounter = getNextFreeId();
+        list.put(idCounter, new Book(idCounter, "9780134684452",
+                "Domain-Driven Design: Tackling Complexity in the Heart of Software", "Eric Evans",
+                "Addison - Wesley Professional", "programming"));
     }
 
     private long getNextFreeId() {

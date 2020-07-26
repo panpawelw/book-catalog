@@ -6,10 +6,6 @@ body {
     text-align: center;
 }
 
-.title {
-    color: #101010;
-}
-
 .list-container {
     display: table;
     margin: auto;
@@ -30,7 +26,7 @@ table, td, tr {
     border: 2px black solid;
 }
 .add-book-button {
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .database-selection {
@@ -40,7 +36,7 @@ table, td, tr {
 
 .main-style {
     margin: 0.5rem auto;
-    padding: 0.5rem;
+    padding: 0.25rem;
     background-color: whitesmoke;
     border-radius: 5px;
     width: fit-content;
@@ -51,4 +47,9 @@ table, td, tr {
 
 .book-entry {
     width: 100%;
+}
+
+.title {
+    color: #101010;
+    margin-top: 2rem;
 }

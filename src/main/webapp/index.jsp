@@ -10,12 +10,9 @@
     <title>Book Catalog</title>
 </head>
 <body>
-<br>
-<br>
 <div class='main-style title'>
     <h1>Book Catalog</h1>
 </div>
-<br>
 <div class='list-container'>
     <ul class='book-list'></ul>
 </div>
