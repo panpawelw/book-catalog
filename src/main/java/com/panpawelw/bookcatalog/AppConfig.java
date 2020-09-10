@@ -36,8 +36,8 @@ public class AppConfig implements WebMvcConfigurer {
         driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/book_catalog?" +
           "autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&" +
           "useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=EET");
-        driverManagerDataSource.setUsername("root");
-        driverManagerDataSource.setPassword("mojSQL");
+        driverManagerDataSource.setUsername("********");
+        driverManagerDataSource.setPassword("********");
         return driverManagerDataSource;
     }
 
