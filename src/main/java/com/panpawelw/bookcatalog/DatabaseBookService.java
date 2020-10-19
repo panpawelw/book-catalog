@@ -15,10 +15,14 @@ public class DatabaseBookService implements BookService {
 
     public DatabaseBookService(DriverManagerDataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
+        populateDatabase();
+    }
+
+    public void populateDatabase() {
         jdbcTemplate.execute("DROP TABLE IF EXISTS books");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS books (id BIGINT AUTO_INCREMENT NOT " +
-          "NULL, isbn VARCHAR(255), title VARCHAR(255), author VARCHAR(255), publisher VARCHAR" +
-          "(255), type VARCHAR(255), PRIMARY KEY(id));");
+                "NULL, isbn VARCHAR(255), title VARCHAR(255), author VARCHAR(255), publisher VARCHAR" +
+                "(255), type VARCHAR(255), PRIMARY KEY(id));");
 
         this.addBook(new Book("9788324631766", "Core Java Volume I",
                 "Cay S. Horstmann " ,"Prentice Hall", "programming"));

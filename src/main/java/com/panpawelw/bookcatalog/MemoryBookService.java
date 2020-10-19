@@ -12,8 +12,13 @@ public class MemoryBookService implements BookService {
     private long nextId;
 
     public MemoryBookService() {
-
         list = new HashMap<>();
+        populateDatabase();
+    }
+
+    public void populateDatabase() {
+        nextId = 0;
+        list.clear();
         long idCounter = getNextFreeId();
         list.put(idCounter, new Book(idCounter, "9788324631766", "Core Java Volume I",
                 "Cay S. Horstmann " ,"Prentice Hall", "programming"));

@@ -41,6 +41,11 @@ public class BookController {
         this.bookService = context.getBean(MemoryBookService.class);
     }
 
+    @GetMapping("/resetdatabase")
+    public void resetDatabase() {
+        bookService.populateDatabase();
+    }
+
     @GetMapping("/")
     @ResponseBody
     public Map<Long, Book> getBooks() {
@@ -55,8 +60,7 @@ public class BookController {
 
     @PostMapping("/add")
     public void addBook(@RequestParam String isbn, String title, String author, String publisher,
-                        String type, HttpServletRequest request, HttpServletResponse response,
-                        RedirectAttributes redirectAttributes) {
+                        String type, HttpServletRequest request, HttpServletResponse response) {
         if(!bookService.addBook(new Book(isbn, title, author, publisher, type))) {
             System.out.println("Error adding book!");
         }

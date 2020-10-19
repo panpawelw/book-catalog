@@ -180,6 +180,13 @@ $(document).ready(function () {
         })
     }
 
+    function resetDatabase() {
+        $.get(baseURL + 'resetdatabase/', {async: false}, function () {
+        }).done(function () {
+            getBookList();
+        })
+    }
+
     $(document).on('click', '.details-button', detailsHandler);
     $(document).on('click', '.update-button', updateHandler);
     $(document).on('click', '.delete-button', deleteHandler);
@@ -189,5 +196,6 @@ $(document).ready(function () {
     $(document).on('click', '#add-cancel', addHandler);
     $(document).on('click', '#memory-database', switchToMemoryDatabase);
     $(document).on('click', '#mysql-database', switchToMysqlDatabase);
+    $(document).on('click', '#reset-database', resetDatabase);
     getBookList();
 });
