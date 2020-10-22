@@ -20,7 +20,7 @@
     <button class='btn btn-primary' id='add-button'>Add new book</button>
 </div>
 <div class='add-book'>
-    <form action='books/add' method='post'>
+    <form action='book' method='post'>
         <table>
             <tr>
                 <td><label for='isbn'>isbn</label></td>

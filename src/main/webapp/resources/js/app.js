@@ -1,12 +1,12 @@
 $(document).ready(function () {
 
-    const baseURL = window.location.pathname + 'books/';
+    const baseURL = window.location.pathname;
     let bookList = $('ul.book-list');
 
     function getBookList() {
         $.ajax({
             type: 'GET',
-            url: baseURL,
+            url: baseURL + 'getallbooks',
             dataType: 'JSON'
         }).done(function (books) {
             bookList.empty();
@@ -64,7 +64,7 @@ $(document).ready(function () {
     function deleteHandler() {
         $.ajax({
             type: 'DELETE',
-            url: baseURL + this.parentNode.id,
+            url: baseURL + 'book/' + this.parentNode.id,
         })
             .done(function () {
                 getBookList();
@@ -88,11 +88,11 @@ $(document).ready(function () {
         bookListEntry.addClass('details-shown');
         $.ajax({
             type: 'GET',
-            url: baseURL + bookNumber,
+            url: baseURL + '/book/' + bookNumber,
             dataType: 'JSON'
         }).done(function (book) {
             let html = `
-                <form class="update-form" action="books/update/${bookNumber}" method="put">
+                <form class="update-form" action="book/${bookNumber}" method="put">
                 `;
             for (let key in book) {
                 if (key === 'id') {
@@ -146,7 +146,7 @@ $(document).ready(function () {
         });
         book.id = Number(book.id);
         $.ajax({
-            url: baseURL + 'update/' + book.id,
+            url: baseURL + 'book/' + book.id,
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(book),
