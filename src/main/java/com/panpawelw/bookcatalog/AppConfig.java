@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.panpawelw")
+@ComponentScan(basePackages = "com.panpawelw.bookcatalog")
 public class AppConfig implements WebMvcConfigurer {
 
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 @RequestMapping("/")
 public class BookController {
 
     private BookService bookService;
-    private static ApplicationContext context;
+    private final ApplicationContext context;
 
+    @Autowired
     public BookController(MemoryBookService bookService, ApplicationContext context) {
         this.bookService = bookService;
-        BookController.context = context;
+        this.context = context;
     }
 
     @GetMapping("/getallbooks")
