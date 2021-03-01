@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class MemoryBookServiceTests {
 
@@ -19,7 +19,37 @@ public class MemoryBookServiceTests {
     }
 
     @Test
-    public void populateDatabaseTest() {
+    public void addBookTest() {
+        Book testBook = new Book("test ISBN", "test title", "test author",
+                "test publishers","test type");
+        assertTrue(service.addBook(testBook));
+        Map<Long, Book> books = service.getBooks();
+        assertEquals(testBook, service.getBooks().get((long) books.size()));
+    }
+
+    @Test
+    public void updateBookTest() {
+        Book testBook = new Book("test ISBN", "test title", "test author",
+                "test publishers","test type");
+        assertTrue(service.updateBook(1, testBook));
+        assertEquals(service.getBookById(1), testBook);
+    }
+
+    @Test
+    public void deleteBookTest() {
+        assertTrue(service.deleteBook(1));
+        assertNull(service.getBookById(1));
+    }
+
+    @Test
+    public void getBookByIdTest() {
+        assertEquals(service.getBookById(1), new Book(1, "9788324631766",
+                "Core Java Volume I", "Cay S. Horstmann " ,
+                "Prentice Hall", "programming"));
+    }
+
+    @Test
+    public void getBooksTest() {
         Map<Long, Book> expectedDatabase = Stream.of(new Object[][] {
                 {1L, new Book(1, "9788324631766", "Core Java Volume I",
                         "Cay S. Horstmann " ,"Prentice Hall", "programming")},
@@ -39,19 +69,4 @@ public class MemoryBookServiceTests {
 
         assertEquals(service.getBooks(), expectedDatabase);
     }
-
-    @Test
-    public void addBookTest() {}
-
-    @Test
-    public void updateBookTest() {}
-
-    @Test
-    public void deleteBookTest() {}
-
-    @Test
-    public void getBookByIdTest() {}
-
-    @Test
-    public void getBooksTest() {}
 }
