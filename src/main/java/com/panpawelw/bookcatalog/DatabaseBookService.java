@@ -61,8 +61,7 @@ public class DatabaseBookService implements BookService {
 
     @Override
     public Book getBookById(long id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM books WHERE id=?",
-          new Object[]{id}, (rs, rowNum) ->
+        return jdbcTemplate.queryForObject("SELECT * FROM books WHERE id=?", (rs, rowNum) ->
             new Book(
               rs.getLong("id"),
               rs.getString("isbn"),
@@ -70,8 +69,9 @@ public class DatabaseBookService implements BookService {
               rs.getString("author"),
               rs.getString("publisher"),
               rs.getString("type")
-            ));
+            ), id);
     }
+
     @Override
     public Map<Long, Book> getBooks() {
         Map<Long, Book> list = new HashMap<>();
