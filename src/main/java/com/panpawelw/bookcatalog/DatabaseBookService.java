@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,8 +12,8 @@ public class DatabaseBookService implements BookService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public DatabaseBookService(DriverManagerDataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
+    public DatabaseBookService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
         populateDatabase();
     }
 

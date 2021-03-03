@@ -3,6 +3,7 @@ package com.panpawelw.bookcatalog;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -36,13 +37,18 @@ public class AppConfig implements WebMvcConfigurer {
         driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/book_catalog?" +
           "autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&" +
           "useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=EET");
-        driverManagerDataSource.setUsername("********");
-        driverManagerDataSource.setPassword("********");
+        driverManagerDataSource.setUsername("*******");
+        driverManagerDataSource.setPassword("*******");
         return driverManagerDataSource;
     }
 
     @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
     public DatabaseBookService databaseBookService() {
-        return new DatabaseBookService(dataSource());
+        return new DatabaseBookService(jdbcTemplate());
     }
 }
