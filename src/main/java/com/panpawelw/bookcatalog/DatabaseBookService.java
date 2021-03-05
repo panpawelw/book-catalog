@@ -18,7 +18,7 @@ public class DatabaseBookService implements BookService {
     }
 
     public void populateDatabase() {
-        jdbcTemplate.execute("DROP TABLE IF EXISTS books");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS books;");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS books (id BIGINT AUTO_INCREMENT NOT " +
                 "NULL, isbn VARCHAR(255), title VARCHAR(255), author VARCHAR(255), publisher VARCHAR" +
                 "(255), type VARCHAR(255), PRIMARY KEY(id));");
