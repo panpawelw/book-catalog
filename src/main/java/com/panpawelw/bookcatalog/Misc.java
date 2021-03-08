@@ -2,7 +2,7 @@ package com.panpawelw.bookcatalog;
 
 public class Misc {
 
-  static final Book[] BOOK_LIST = {
+  public static final Book[] BOOK_LIST = {
       new Book(1, "9788324631766", "Core Java Volume I", "Cay S. Horstmann",
           "Prentice Hall", "programming"),
       new Book(2, "9780596007126", "Head First. Design Patterns",

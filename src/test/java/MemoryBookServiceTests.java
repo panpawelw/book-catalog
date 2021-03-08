@@ -1,12 +1,15 @@
 import com.panpawelw.bookcatalog.Book;
 import com.panpawelw.bookcatalog.MemoryBookService;
+import com.panpawelw.bookcatalog.Misc;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.panpawelw.bookcatalog.Misc.BOOK_LIST;
 import static org.junit.Assert.*;
 
 public class MemoryBookServiceTests {
@@ -44,29 +47,16 @@ public class MemoryBookServiceTests {
     @Test
     public void getBookByIdTest() {
         assertEquals(service.getBookById(1), new Book(1, "9788324631766",
-                "Core Java Volume I", "Cay S. Horstmann " ,
+                "Core Java Volume I", "Cay S. Horstmann" ,
                 "Prentice Hall", "programming"));
     }
 
     @Test
     public void getBooksTest() {
-        Map<Long, Book> expectedDatabase = Stream.of(new Object[][] {
-                {1L, new Book(1, "9788324631766", "Core Java Volume I",
-                        "Cay S. Horstmann " ,"Prentice Hall", "programming")},
-                {2L, new Book(2, "9780596007126", "Head First. Design Patterns",
-                        "Eric Freeman, Bert Bates, Kathy Sierra, Elisabeth Robson", "O'Reilly",
-                        "programming")},
-                {3L, new Book(3, "9781932394856", "Test Driven", "Lance Koskela",
-                        "Manning", "programming")},
-                {4L, new Book(4, "9780132350884", "Clean Code", "Robert C. Martin",
-                        "Prentice Hall", "programming")},
-                {5L, new Book(5, "9780134685991", "Effective Java", "Joshua Bloch",
-                        "Addison - Wesley Professional", "programming")},
-                {6L, new Book(6, "9780134684452",
-                        "Domain-Driven Design: Tackling Complexity in the Heart of Software", "Eric Evans",
-                        "Addison - Wesley Professional", "programming")},
-        }).collect(Collectors.toMap(data -> (Long) data[0], data -> (Book) data[1]));
-
+        Map<Long, Book> expectedDatabase = new HashMap<>();
+        for (Book book : BOOK_LIST) {
+            expectedDatabase.put(book.getId(), book);
+        }
         assertEquals(service.getBooks(), expectedDatabase);
     }
 }
