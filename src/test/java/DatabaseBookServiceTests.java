@@ -68,14 +68,18 @@ public class DatabaseBookServiceTests {
 
     @Test
     public void getBooksTest() {
-        Map<Long, Book> expectedDatabase = new HashMap<>();
-        for(Book book : Misc.BOOK_LIST) {
-            expectedDatabase.put(book.getId(), book);
+        Map<Long, Book> expectedResult = new HashMap<>();
+        for (Book book : Misc.BOOK_LIST) {
+            expectedResult.put(book.getId(), book);
         }
+        when(jdbcTemplate.queryForList("SELECT * FROM books"))
+            .thenReturn(jdbcTemplateQueryResult(expectedResult));
+        assertEquals(service.getBooks(), expectedResult);
+    }
 
-        //Create a list of rows to be returned from jdbcTemplate.queryForList
-        List<Map<String, Object>> tempList = new ArrayList<>();
-        for(Map.Entry<Long, Book> entry : expectedDatabase.entrySet()) {
+    private List<Map<String, Object>> jdbcTemplateQueryResult(Map<Long, Book> bookMap) {
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Map.Entry<Long, Book> entry : bookMap.entrySet()) {
             Map<String, Object> tempMap = new HashMap<>();
             Book tempBook = entry.getValue();
             tempMap.put("id", tempBook.getId());
@@ -84,10 +88,8 @@ public class DatabaseBookServiceTests {
             tempMap.put("author", tempBook.getAuthor());
             tempMap.put("publisher", tempBook.getPublisher());
             tempMap.put("type", tempBook.getType());
-            tempList.add(tempMap);
+            result.add(tempMap);
         }
-
-        when(jdbcTemplate.queryForList("SELECT * FROM books")).thenReturn(tempList);
-        assertEquals(service.getBooks(), expectedDatabase);
+        return result;
     }
 }
