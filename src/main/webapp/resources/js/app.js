@@ -18,7 +18,7 @@ $(document).ready(function () {
                             <button class="btn btn-primary details-button">details</button>
                             <button class="btn btn-primary update-button">update</button>
                             <button class="btn btn-primary delete-button">delete</button>
-                            <div id="details-${books[book].id}"class="details" 
+                            <div id="details-${books[book].id}" class="details" 
                                 style="display: none;"></div>
                         </div>
                     </li>
@@ -32,9 +32,8 @@ $(document).ready(function () {
     function detailsHandler() {
         const bookNumber = this.parentNode.id;
         const bookListEntry = $(`li#book-${bookNumber}`);
-        if(bookListEntry.hasClass('details-shown')
-            && bookListEntry.hasClass('edition-enabled'))
-        {
+        if (bookListEntry.hasClass('details-shown')
+            && bookListEntry.hasClass('edition-enabled')) {
             toggleBookEditControls(bookNumber);
             return;
         }
@@ -44,16 +43,17 @@ $(document).ready(function () {
     function updateHandler() {
         const bookNumber = this.parentNode.id;
         const bookListEntry = $(`li#book-${bookNumber}`);
-        if(bookListEntry.hasClass('details-shown')
-            && bookListEntry.hasClass('edition-enabled'))
-        {
+        if (bookListEntry.hasClass('details-shown')
+            && bookListEntry.hasClass('edition-enabled')) {
             toggleBookDetails(bookNumber);
             return;
         }
-        if(bookListEntry.hasClass('details-shown')) {
+        if (bookListEntry.hasClass('details-shown')) {
             toggleBookEditControls(bookNumber);
         } else {
-            toggleBookDetails(bookNumber, function() {toggleBookEditControls(bookNumber)});
+            toggleBookDetails(bookNumber, function () {
+                toggleBookEditControls(bookNumber)
+            });
         }
     }
 
@@ -141,7 +141,7 @@ $(document).ready(function () {
     function updateSubmitHandler() {
         let bookRough = $('form.update-form').serializeArray();
         let book = {};
-        $.map(bookRough, function (n, i) {
+        $.map(bookRough, function (n) {
             book[n['name']] = n['value'];
         });
         book.id = Number(book.id);

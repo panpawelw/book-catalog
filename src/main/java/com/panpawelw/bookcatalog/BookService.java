@@ -4,15 +4,15 @@ import java.util.Map;
 
 public interface BookService {
 
-    void populateDatabase();
+  void populateDatabase();
 
-    boolean addBook(Book book);
+  boolean addBook(Book book);
 
-    boolean updateBook(long id, Book book);
+  boolean updateBook(long id, Book book);
 
-    boolean deleteBook(long id);
+  boolean deleteBook(long id);
 
-    Book getBookById(long id);
+  Book getBookById(long id);
 
-    Map<Long, Book> getBooks();
+  Map<Long, Book> getBooks();
 }

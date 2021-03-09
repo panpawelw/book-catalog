@@ -13,11 +13,11 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SmokeTest {
 
-    @Autowired
-    private BookController controller;
+  @Autowired
+  private BookController controller;
 
-    @Test
-    public void smokeTest() {
-        assertNotNull(controller);
-    }
+  @Test
+  public void smokeTest() {
+    assertNotNull(controller);
+  }
 }

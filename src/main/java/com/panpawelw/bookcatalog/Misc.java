@@ -15,7 +15,7 @@ public class Misc {
       new Book(5, "9780134685991", "Effective Java", "Joshua Bloch",
           "Addison - Wesley Professional", "programming"),
       new Book(6, "9780134684452",
-          "Domain-Driven Design: Tackling Complexity in the Heart of Software", "Eric Evans",
-          "Addison - Wesley Professional", "programming")
+          "Domain-Driven Design: Tackling Complexity in the Heart of Software",
+          "Eric Evans", "Addison - Wesley Professional", "programming")
   };
 }

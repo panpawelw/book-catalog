@@ -13,7 +13,7 @@ body {
 
 .book-list {
     list-style-type: none;
-    padding-left : 0;
+    padding-left: 0;
 }
 
 .add-book {
@@ -25,6 +25,7 @@ table, td, tr {
     margin: auto;
     border: 2px black solid;
 }
+
 .add-book-button {
     margin-top: 1rem;
 }
@@ -40,9 +41,9 @@ table, td, tr {
     background-color: whitesmoke;
     border-radius: 5px;
     width: fit-content;
-    -webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
-    box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
 }
 
 .book-entry {
