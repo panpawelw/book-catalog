@@ -1,6 +1,5 @@
 import com.panpawelw.bookcatalog.Book;
 import com.panpawelw.bookcatalog.DatabaseBookService;
-import com.panpawelw.bookcatalog.Misc;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
@@ -46,9 +46,9 @@ public class DatabaseBookServiceTests {
 
   @Test
   public void updateBookTest() {
-    when(jdbcTemplate.update("UPDATE books SET isbn=?, title=?, author=?, publisher=?, " +
-            "type=? WHERE id=?", TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
-        TEST_BOOK.getPublisher(), TEST_BOOK.getType(), 1L)).thenReturn(1);
+    when(jdbcTemplate.update("UPDATE books SET isbn=?, title=?, author=?, publisher=?, type=? " +
+            "WHERE id=?", TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(),
+        TEST_BOOK.getAuthor(), TEST_BOOK.getPublisher(), TEST_BOOK.getType(), 1L)).thenReturn(1);
     assertTrue(service.updateBook(1, TEST_BOOK));
   }
 
@@ -67,10 +67,7 @@ public class DatabaseBookServiceTests {
 
   @Test
   public void getBooksTest() {
-    Map<Long, Book> expectedResult = new HashMap<>();
-    for (Book book : Misc.BOOK_LIST) {
-      expectedResult.put(book.getId(), book);
-    }
+    Map<Long, Book> expectedResult = getBooksAsMap();
     when(jdbcTemplate.queryForList("SELECT * FROM books"))
         .thenReturn(jdbcTemplateQueryResult(expectedResult));
     assertEquals(service.getBooks(), expectedResult);

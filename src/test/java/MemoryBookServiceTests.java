@@ -3,10 +3,9 @@ import com.panpawelw.bookcatalog.MemoryBookService;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import static com.panpawelw.bookcatalog.Misc.BOOK_LIST;
+import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
 import static org.junit.Assert.*;
 
 public class MemoryBookServiceTests {
@@ -50,10 +49,7 @@ public class MemoryBookServiceTests {
 
   @Test
   public void getBooksTest() {
-    Map<Long, Book> expectedDatabase = new HashMap<>();
-    for (Book book : BOOK_LIST) {
-      expectedDatabase.put(book.getId(), book);
-    }
+    Map<Long, Book> expectedDatabase = getBooksAsMap();
     assertEquals(service.getBooks(), expectedDatabase);
   }
 }

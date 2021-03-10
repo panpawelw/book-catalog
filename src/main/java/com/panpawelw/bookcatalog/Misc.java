@@ -1,5 +1,8 @@
 package com.panpawelw.bookcatalog;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Misc {
 
   public static final Book[] BOOK_LIST = {
@@ -18,4 +21,13 @@ public class Misc {
           "Domain-Driven Design: Tackling Complexity in the Heart of Software",
           "Eric Evans", "Addison - Wesley Professional", "programming")
   };
+
+  public static Map<Long, Book> getBooksAsMap() {
+    Map<Long, Book> booksAsMap = new HashMap<>();
+    for (Book book : BOOK_LIST) {
+      booksAsMap.put(book.getId(), book);
+    }
+    return booksAsMap;
+  }
+
 }
