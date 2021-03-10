@@ -1,18 +1,21 @@
 import com.panpawelw.bookcatalog.Book;
 import com.panpawelw.bookcatalog.MemoryBookService;
-import com.panpawelw.bookcatalog.Misc;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.panpawelw.bookcatalog.Misc.BOOK_LIST;
 import static org.junit.Assert.*;
 
 public class MemoryBookServiceTests {
+
+  public static final Book TEST_BOOK = new Book("test ISBN", "test title",
+      "test author", "test publishers", "test type");
+
+  public static final Book GET_BOOK_BY_ID_TEST_BOOK = new Book(3, "9781932394856",
+      "Test Driven", "Lance Koskela", "Manning", "programming");
 
   private MemoryBookService service;
 
@@ -23,19 +26,15 @@ public class MemoryBookServiceTests {
 
   @Test
   public void addBookTest() {
-    Book testBook = new Book("test ISBN", "test title", "test author",
-        "test publishers", "test type");
-    assertTrue(service.addBook(testBook));
+    assertTrue(service.addBook(TEST_BOOK));
     Map<Long, Book> books = service.getBooks();
-    assertEquals(testBook, service.getBooks().get((long) books.size()));
+    assertEquals(TEST_BOOK, service.getBooks().get((long) books.size()));
   }
 
   @Test
   public void updateBookTest() {
-    Book testBook = new Book("test ISBN", "test title", "test author",
-        "test publishers", "test type");
-    assertTrue(service.updateBook(1, testBook));
-    assertEquals(service.getBookById(1), testBook);
+    assertTrue(service.updateBook(1, TEST_BOOK));
+    assertEquals(service.getBookById(1), TEST_BOOK);
   }
 
   @Test
@@ -46,9 +45,7 @@ public class MemoryBookServiceTests {
 
   @Test
   public void getBookByIdTest() {
-    assertEquals(service.getBookById(1), new Book(1, "9788324631766",
-        "Core Java Volume I", "Cay S. Horstmann",
-        "Prentice Hall", "programming"));
+    assertEquals(service.getBookById(3), GET_BOOK_BY_ID_TEST_BOOK);
   }
 
   @Test

@@ -3,7 +3,9 @@ import com.panpawelw.bookcatalog.DatabaseBookService;
 import com.panpawelw.bookcatalog.Misc;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.*;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -17,7 +19,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DatabaseBookServiceTests {
+
+  public static final Book TEST_BOOK = new Book("test ISBN", "test title",
+      "test author", "test publishers", "test type");
 
   @InjectMocks
   private DatabaseBookService service;
@@ -27,28 +33,23 @@ public class DatabaseBookServiceTests {
 
   @Before
   public void setup() {
-    MockitoAnnotations.openMocks(this);
     this.service = new DatabaseBookService(jdbcTemplate);
   }
 
   @Test
   public void addBookTest() {
-    Book testBook = new Book("test ISBN", "test title", "test author",
-        "test publishers", "test type");
     when(jdbcTemplate.update("INSERT INTO books (isbn, title, author, publisher, type) " +
-            "VALUES (?, ?, ?, ?, ?)", testBook.getIsbn(), testBook.getTitle(),
-        testBook.getAuthor(), testBook.getPublisher(), testBook.getType())).thenReturn(1);
-    assertTrue(service.addBook(testBook));
+            "VALUES (?, ?, ?, ?, ?)", TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(),
+        TEST_BOOK.getAuthor(), TEST_BOOK.getPublisher(), TEST_BOOK.getType())).thenReturn(1);
+    assertTrue(service.addBook(TEST_BOOK));
   }
 
   @Test
   public void updateBookTest() {
-    Book testBook = new Book("test ISBN", "test title", "test author",
-        "test publishers", "test type");
     when(jdbcTemplate.update("UPDATE books SET isbn=?, title=?, author=?, publisher=?, " +
-            "type=? WHERE id=?", testBook.getIsbn(), testBook.getTitle(), testBook.getAuthor(),
-        testBook.getPublisher(), testBook.getType(), 1L)).thenReturn(1);
-    assertTrue(service.updateBook(1, testBook));
+            "type=? WHERE id=?", TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
+        TEST_BOOK.getPublisher(), TEST_BOOK.getType(), 1L)).thenReturn(1);
+    assertTrue(service.updateBook(1, TEST_BOOK));
   }
 
   @Test
@@ -59,11 +60,9 @@ public class DatabaseBookServiceTests {
 
   @Test
   public void getBookByIdTest() {
-    Book testBook = new Book(1, "test ISBN", "test title", "test author",
-        "test publishers", "test type");
     when(jdbcTemplate.queryForObject(anyString(), ArgumentMatchers.<RowMapper<Book>>any(),
-        anyLong())).thenReturn(testBook);
-    assertEquals(service.getBookById(1), testBook);
+        anyLong())).thenReturn(TEST_BOOK);
+    assertEquals(service.getBookById(1), TEST_BOOK);
   }
 
   @Test
