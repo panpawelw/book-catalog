@@ -29,5 +29,4 @@ public class Misc {
     }
     return booksAsMap;
   }
-
 }

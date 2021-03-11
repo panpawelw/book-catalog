@@ -38,17 +38,19 @@ public class DatabaseBookServiceTests {
 
   @Test
   public void addBookTest() {
-    when(jdbcTemplate.update("INSERT INTO books (isbn, title, author, publisher, type) " +
-            "VALUES (?, ?, ?, ?, ?)", TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(),
-        TEST_BOOK.getAuthor(), TEST_BOOK.getPublisher(), TEST_BOOK.getType())).thenReturn(1);
+    when(jdbcTemplate.update(
+        "INSERT INTO books (isbn, title, author, publisher, type) VALUES (?, ?, ?, ?, ?);",
+        TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(), TEST_BOOK.getPublisher(),
+        TEST_BOOK.getType())).thenReturn(1);
     assertTrue(service.addBook(TEST_BOOK));
   }
 
   @Test
   public void updateBookTest() {
-    when(jdbcTemplate.update("UPDATE books SET isbn=?, title=?, author=?, publisher=?, type=? " +
-            "WHERE id=?", TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(),
-        TEST_BOOK.getAuthor(), TEST_BOOK.getPublisher(), TEST_BOOK.getType(), 1L)).thenReturn(1);
+    when(jdbcTemplate.update(
+        "UPDATE books SET isbn=?, title=?, author=?, publisher=?, type=? WHERE id=?",
+        TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
+        TEST_BOOK.getPublisher(), TEST_BOOK.getType(), 1L)).thenReturn(1);
     assertTrue(service.updateBook(1, TEST_BOOK));
   }
 
