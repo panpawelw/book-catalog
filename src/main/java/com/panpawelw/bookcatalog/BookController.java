@@ -32,6 +32,10 @@ public class BookController {
     this.context = context;
   }
 
+  public BookService getBookService() {
+    return this.bookService;
+  }
+
   @GetMapping("/getallbooks")
   @ResponseBody
   public Map<Long, Book> getBooks() {
