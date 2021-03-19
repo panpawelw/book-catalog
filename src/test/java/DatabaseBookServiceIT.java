@@ -38,8 +38,7 @@ public class DatabaseBookServiceIT {
   public void addBookTest() {
     service.addBook(TEST_BOOK);
     Map<Long, Book> bookList = service.getBooks();
-    long id = Collections.max(bookList.keySet());
-    TEST_BOOK.setId(id);
+    TEST_BOOK.setId(Collections.max(bookList.keySet()));
     assertTrue(bookList.containsValue(TEST_BOOK));
   }
 

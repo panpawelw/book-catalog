@@ -14,9 +14,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,6 +30,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ContextConfiguration(classes = TestConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BookControllerIT {
+
+  public static final Book TEST_BOOK = new Book("test ISBN", "test title",
+      "test author", "test publishers", "test type");
 
   MockMvc mockMvc;
 
@@ -38,7 +46,7 @@ public class BookControllerIT {
 
   @Test
   public void getBooksTest() throws Exception {
-    mockMvc.perform(get("/resetdatabase")).andExpect(status().isOk());
+    mockMvc.perform(get("/resetdatabase"));
     MvcResult result = mockMvc.perform(get("/getallbooks")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
@@ -50,7 +58,16 @@ public class BookControllerIT {
 
   @Test
   public void addBookTest() throws Exception {
-
+    mockMvc.perform(post("/book").secure(true)
+        .param("isbn",TEST_BOOK.getIsbn())
+        .param("title", TEST_BOOK.getTitle())
+        .param("author", TEST_BOOK.getAuthor())
+        .param("publisher", TEST_BOOK.getPublisher())
+        .param("type", TEST_BOOK.getType()))
+        .andExpect(redirectedUrl(""));
+    Map<Long, Book> bookList = controller.getBookService().getBooks();
+    TEST_BOOK.setId(Collections.max(bookList.keySet()));
+    assertTrue(bookList.containsValue(TEST_BOOK));
   }
 
   @Test
