@@ -20,11 +20,10 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @WebAppConfiguration
 @ContextConfiguration(classes = TestConfig.class)
@@ -77,7 +76,9 @@ public class BookControllerIT {
 
   @Test
   public void deleteBookTest() throws Exception {
-
+    mockMvc.perform(delete("/book/1")).andExpect(status().isOk());
+    Map<Long, Book> bookList = controller.getBookService().getBooks();
+    assertTrue(!bookList.containsKey(1));
   }
 
   @Test
