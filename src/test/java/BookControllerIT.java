@@ -1,8 +1,6 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.panpawelw.bookcatalog.Book;
-import com.panpawelw.bookcatalog.BookController;
-import com.panpawelw.bookcatalog.Misc;
+import com.panpawelw.bookcatalog.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,29 +67,72 @@ public class BookControllerIT {
   }
 
   @Test
-  public void updateBookTest() throws Exception {
+  public void addBookInvalidJsonTest() throws Exception {
+    mockMvc.perform(post("/book").secure(true)
+        .param("grrt", "whatever")
+        .param("blob", "1")
+        .param("wat?", "uuk")
+        .param("ouch", TEST_BOOK.getAuthor()))
+        .andExpect(redirectedUrl(null));
+  }
 
+  @Test
+  public void updateBookTest() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    TEST_BOOK.setId(1);
+    String bookJson = mapper.writeValueAsString(TEST_BOOK);
+    mockMvc.perform(put("/book/1").contentType(MediaType.APPLICATION_JSON)
+        .content(bookJson).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    assertTrue(controller.getBookService().getBooks().containsValue(TEST_BOOK));
+  }
+
+  @Test
+  public void updateBookInvalidParameterTest() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    TEST_BOOK.setId(1);
+    String bookJson = mapper.writeValueAsString(TEST_BOOK);
+    mockMvc.perform(put("/book/x").contentType(MediaType.APPLICATION_JSON)
+        .content(bookJson).accept(MediaType.APPLICATION_JSON)).andExpect(status().is(400));
+  }
+
+  @Test
+  public void updateBookInvalidJsonTest() throws Exception {
+    String bookJson = "whatever";
+    mockMvc.perform(put("/book/1").contentType(MediaType.APPLICATION_JSON)
+        .content(bookJson).accept(MediaType.APPLICATION_JSON)).andExpect(status().is(400));
   }
 
   @Test
   public void deleteBookTest() throws Exception {
     mockMvc.perform(delete("/book/1")).andExpect(status().isOk());
     Map<Long, Book> bookList = controller.getBookService().getBooks();
-    assertTrue(!bookList.containsKey(1));
+    assertFalse(bookList.containsKey(1L));
+  }
+
+  @Test
+  public void deleteBookInvalidParameterTest() throws Exception {
+    mockMvc.perform(delete("/book/h7")).andExpect(status().is(400));
   }
 
   @Test
   public void switchToMySQLDatabaseTest() throws Exception {
-
+    mockMvc.perform(get("/mysqldatabase")).andExpect(status().isOk());
+    assertTrue(controller.getBookService() instanceof DatabaseBookService);
   }
 
   @Test
   public void switchToMemoryDatabaseTest() throws Exception {
-
+    mockMvc.perform(get("/memorydatabase")).andExpect(status().isOk());
+    assertTrue(controller.getBookService() instanceof MemoryBookService);
   }
 
   @Test
   public void resetDatabaseTest() throws Exception {
-
+    Map<Long, Book> bookList = controller.getBookService().getBooks();
+    for (Map.Entry<Long, Book> entry : bookList.entrySet()) {
+      mockMvc.perform(delete("/book/" + entry.getKey())).andExpect(status().isOk());
+    }
+    mockMvc.perform(get("/resetdatabase")).andExpect(status().isOk());
+    assertEquals(controller.getBookService().getBooks(), Misc.getBooksAsMap());
   }
 }
