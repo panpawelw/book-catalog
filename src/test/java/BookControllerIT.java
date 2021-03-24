@@ -4,17 +4,15 @@ import com.panpawelw.bookcatalog.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -24,25 +22,37 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 @WebAppConfiguration
 @ContextConfiguration(classes = TestConfig.class)
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(Parameterized.class)
 public class BookControllerIT {
 
   public static final Book TEST_BOOK = new Book("test ISBN", "test title",
       "test author", "test publishers", "test type");
+
+  String chooseService;
 
   MockMvc mockMvc;
 
   @Autowired
   private BookController controller;
 
+  public BookControllerIT(String chooseService) {
+    this.chooseService = chooseService;
+  }
+
+  @Parameterized.Parameters
+  public static Collection<String> primeNumbers() {
+    return Arrays.asList("/mysqldatabase", "/memorydatabase");
+  }
+
   @Before
   public void setup() {
     this.mockMvc = standaloneSetup(this.controller).build();
+    controller.getBookService().populateDatabase();
   }
 
   @Test
   public void getBooksTest() throws Exception {
-    mockMvc.perform(get("/resetdatabase"));
+    mockMvc.perform(get(chooseService)).andExpect(status().isOk());
     MvcResult result = mockMvc.perform(get("/getallbooks")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
