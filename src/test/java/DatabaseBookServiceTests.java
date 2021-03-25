@@ -16,8 +16,7 @@ import java.util.Map;
 import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DatabaseBookServiceTests {
@@ -39,10 +38,14 @@ public class DatabaseBookServiceTests {
   @Test
   public void addBookTest() {
     when(jdbcTemplate.update(
-        "INSERT INTO books (isbn, title, author, publisher, type) VALUES (?, ?, ?, ?, ?);",
-        TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(), TEST_BOOK.getPublisher(),
-        TEST_BOOK.getType())).thenReturn(1);
+        "INSERT INTO books (isbn, title, author, publisher, type) VALUES (?, ?, ?, ?, ?)",
+        TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
+        TEST_BOOK.getPublisher(), TEST_BOOK.getType())).thenReturn(1);
     assertTrue(service.addBook(TEST_BOOK));
+    verify(jdbcTemplate, times(1)).update(
+        "INSERT INTO books (isbn, title, author, publisher, type) VALUES (?, ?, ?, ?, ?)",
+        TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
+        TEST_BOOK.getPublisher(), TEST_BOOK.getType());
   }
 
   @Test
@@ -52,19 +55,27 @@ public class DatabaseBookServiceTests {
         TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
         TEST_BOOK.getPublisher(), TEST_BOOK.getType(), 1L)).thenReturn(1);
     assertTrue(service.updateBook(1, TEST_BOOK));
+    verify(jdbcTemplate, times(1)).update(
+        "UPDATE books SET isbn=?, title=?, author=?, publisher=?, type=? WHERE id=?",
+        TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
+        TEST_BOOK.getPublisher(), TEST_BOOK.getType(), 1L);
   }
 
   @Test
   public void deleteBookTest() {
     when(jdbcTemplate.update("DELETE FROM books WHERE id=?", 1L)).thenReturn(1);
     assertTrue(service.deleteBook(1));
+    verify(jdbcTemplate, times(1)).update(
+        "DELETE FROM books WHERE id=?", 1L);
   }
 
   @Test
   public void getBookByIdTest() {
-    when(jdbcTemplate.queryForObject(anyString(), ArgumentMatchers.<RowMapper<Book>>any(),
-        anyLong())).thenReturn(TEST_BOOK);
+    when(jdbcTemplate.queryForObject(eq("SELECT * FROM books WHERE id=?"),
+        ArgumentMatchers.<RowMapper<Book>>any(),eq(1L))).thenReturn(TEST_BOOK);
     assertEquals(service.getBookById(1), TEST_BOOK);
+    verify(jdbcTemplate, times(1)).queryForObject(eq(
+        "SELECT * FROM books WHERE id=?"), ArgumentMatchers.<RowMapper<Book>>any(),eq(1L));
   }
 
   @Test
@@ -73,6 +84,7 @@ public class DatabaseBookServiceTests {
     when(jdbcTemplate.queryForList("SELECT * FROM books"))
         .thenReturn(jdbcTemplateQueryResult(expectedResult));
     assertEquals(service.getBooks(), expectedResult);
+    verify(jdbcTemplate, times(1)).queryForList("SELECT * FROM books");
   }
 
   private List<Map<String, Object>> jdbcTemplateQueryResult(Map<Long, Book> bookMap) {
