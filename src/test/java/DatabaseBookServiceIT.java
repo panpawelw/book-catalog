@@ -1,6 +1,7 @@
 import com.panpawelw.bookcatalog.Book;
 import com.panpawelw.bookcatalog.DatabaseBookService;
 import com.panpawelw.bookcatalog.Misc;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,13 @@ public class DatabaseBookServiceIT {
   @Autowired
   private DatabaseBookService service;
 
+  @Before
+  public void setup() {
+    service.populateDatabase();
+  }
+
   @Test
   public void getBooksTest() {
-    service.populateDatabase();
     assertEquals(service.getBooks(), Misc.getBooksAsMap());
   }
 
