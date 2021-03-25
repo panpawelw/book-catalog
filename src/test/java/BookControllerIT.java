@@ -2,23 +2,29 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.panpawelw.bookcatalog.*;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @WebAppConfiguration
 @ContextConfiguration(classes = TestConfig.class)
@@ -28,9 +34,20 @@ public class BookControllerIT {
   public static final Book TEST_BOOK = new Book("test ISBN", "test title",
       "test author", "test publishers", "test type");
 
-  String chooseService;
+  public Map<Long, Book> BOOK_LIST = new HashMap<>();
+
+  @ClassRule
+  public static final SpringClassRule scr = new SpringClassRule();
+
+  @Rule
+  public final SpringMethodRule smr = new SpringMethodRule();
+
+  @Autowired
+  private WebApplicationContext wac;
 
   MockMvc mockMvc;
+
+  String chooseService;
 
   @Autowired
   private BookController controller;
@@ -40,26 +57,27 @@ public class BookControllerIT {
   }
 
   @Parameterized.Parameters
-  public static Collection<String> primeNumbers() {
+  public static Collection<String> databaseType() {
     return Arrays.asList("/mysqldatabase", "/memorydatabase");
   }
 
   @Before
-  public void setup() {
-    this.mockMvc = standaloneSetup(this.controller).build();
-    controller.getBookService().populateDatabase();
+  public void setup() throws Exception {
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    this.BOOK_LIST = Misc.getBooksAsMap();
+    mockMvc.perform(get(chooseService)).andExpect(status().isOk());
+    mockMvc.perform(get("/resetdatabase")).andExpect(status().isOk());
   }
 
   @Test
   public void getBooksTest() throws Exception {
-    mockMvc.perform(get(chooseService)).andExpect(status().isOk());
     MvcResult result = mockMvc.perform(get("/getallbooks")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
     ObjectMapper mapper = new ObjectMapper();
     HashMap<Long, Book> bookList = mapper.readValue(result.getResponse().getContentAsString(),
         new TypeReference<HashMap<Long, Book>>() {});
-    assertEquals(bookList, Misc.getBooksAsMap());
+    assertEquals(bookList, BOOK_LIST);
   }
 
   @Test
@@ -138,11 +156,12 @@ public class BookControllerIT {
 
   @Test
   public void resetDatabaseTest() throws Exception {
-    Map<Long, Book> bookList = controller.getBookService().getBooks();
+    ConcurrentHashMap<Long, Book> bookList =
+        new ConcurrentHashMap<>(controller.getBookService().getBooks());
     for (Map.Entry<Long, Book> entry : bookList.entrySet()) {
       mockMvc.perform(delete("/book/" + entry.getKey())).andExpect(status().isOk());
     }
     mockMvc.perform(get("/resetdatabase")).andExpect(status().isOk());
-    assertEquals(controller.getBookService().getBooks(), Misc.getBooksAsMap());
+    assertEquals(controller.getBookService().getBooks(), BOOK_LIST);
   }
 }
