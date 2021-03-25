@@ -24,11 +24,11 @@ public class DatabaseBookServiceTests {
   public static final Book TEST_BOOK = new Book("test ISBN", "test title",
       "test author", "test publishers", "test type");
 
-  @InjectMocks
-  private DatabaseBookService service;
-
   @Mock
   JdbcTemplate jdbcTemplate;
+
+  @InjectMocks
+  private DatabaseBookService service;
 
   @Before
   public void setup() {

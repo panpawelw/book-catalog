@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class MemoryBookServiceTests {
 
-  public static final Book TEST_BOOK = new Book("test ISBN", "test title",
+  public static final Book TEST_BOOK = new Book(1, "test ISBN", "test title",
       "test author", "test publishers", "test type");
 
   public static final Book GET_BOOK_BY_ID_TEST_BOOK = new Book(3, "9781932394856",
