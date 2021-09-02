@@ -62,12 +62,14 @@ public class BookControllerTests {
   public void getBooksTest() {
     when(service.getBooks()).thenReturn(getBooksAsMap());
     assertEquals(bookController.getBooks(), getBooksAsMap());
+    verify(service).getBooks();
   }
 
   @Test
   public void getBookByIdTest() {
     when(service.getBookById(3)).thenReturn(TEST_BOOK);
     assertEquals(bookController.getBookById(3), TEST_BOOK);
+    verify(service).getBookById(3);
   }
 
   @Test
@@ -76,6 +78,7 @@ public class BookControllerTests {
     bookController.addBook(TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
         TEST_BOOK.getPublisher(), TEST_BOOK.getType(), request, response);
     assertEquals("", outContent.toString());
+    verify(service).addBook(any());
   }
 
   @Test
@@ -84,6 +87,7 @@ public class BookControllerTests {
     bookController.addBook(TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
         TEST_BOOK.getPublisher(), TEST_BOOK.getType(), request, response);
     assertEquals("Error adding book!\r\n", outContent.toString());
+    verify(service).addBook(any());
   }
 
   @Test
@@ -91,6 +95,7 @@ public class BookControllerTests {
     when(service.updateBook(1, TEST_BOOK)).thenReturn(true);
     service.updateBook(1, TEST_BOOK);
     assertEquals("", outContent.toString());
+    verify(service).updateBook(1, TEST_BOOK);
   }
 
   @Test
@@ -98,6 +103,7 @@ public class BookControllerTests {
     when(service.updateBook(1, TEST_BOOK)).thenReturn(false);
     bookController.updateBook(1, TEST_BOOK);
     assertEquals("Error updating book!\r\n", outContent.toString());
+    verify(service).updateBook(1, TEST_BOOK);
   }
 
   @Test
@@ -105,6 +111,7 @@ public class BookControllerTests {
     when(service.deleteBook(1)).thenReturn(true);
     bookController.deleteBook(1);
     assertEquals("", outContent.toString());
+    verify(service).deleteBook(1);
   }
 
   @Test
@@ -112,6 +119,7 @@ public class BookControllerTests {
     when(service.deleteBook(1)).thenReturn(false);
     bookController.deleteBook(1);
     assertEquals("Error deleting book!\r\n", outContent.toString());
+    verify(service).deleteBook(1);
   }
 
   @Test
@@ -121,6 +129,7 @@ public class BookControllerTests {
         .thenReturn(databaseBookService);
     bookController.switchToMySQLDatabase();
     assertEquals(bookController.getBookService(), databaseBookService);
+    verify(context).getBean(DatabaseBookService.class);
   }
 
   @Test
@@ -130,6 +139,7 @@ public class BookControllerTests {
         .thenReturn(memoryBookService);
     bookController.switchToMemoryDatabase();
     assertEquals(bookController.getBookService(), memoryBookService);
+    verify(context).getBean(MemoryBookService.class);
   }
 
   @Test
