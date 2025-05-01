@@ -2,12 +2,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>pl.pjm77</groupId>
-    <artifactId>Book-Catalog</artifactId>
+    <groupId>com.panpawelw.bookcatalog</groupId>
+    <artifactId>book-catalog</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Book Catalog Maven Webapp</name>
-    <url>http://maven.apache.org</url>
+    <name>Book Catalog</name>
+    <description>Book Catalog Webapp</description>
     <properties>
         <org.springframework-version>5.3.3</org.springframework-version>
         <failOnMissingWebXml>false</failOnMissingWebXml>
