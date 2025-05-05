@@ -11,7 +11,7 @@
     <description>Book Catalog Webapp</description>
 
     <properties>
-        <org.springframework-version>5.3.3</org.springframework-version>
+        <org.springframework-version>5.3.18</org.springframework-version>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
