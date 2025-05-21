@@ -1,56 +1,56 @@
 @charset "UTF-8";
 
 body {
-    background: #E9E49D url("../images/background.jpg") repeat;
-    font-weight: bold;
-    text-align: center;
+  background: #E9E49D url("../images/background.jpg") repeat;
+  font-weight: bold;
+  text-align: center;
 }
 
 .list-container {
-    display: table;
-    margin: auto;
+  display: table;
+  margin: auto;
 }
 
 .book-list {
-    list-style-type: none;
-    padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .add-book {
-    padding: 1rem;
-    display: none;
+  padding: 1rem;
+  display: none;
 }
 
 table, td, tr {
-    margin: auto;
-    border: 2px black solid;
+  margin: auto;
+  border: 2px black solid;
 }
 
 .add-book-button {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .database-selection {
-    padding: 0 1rem 1rem 1rem;
-    margin: 2rem auto;
+  padding: 0 1rem 1rem 1rem;
+  margin: 2rem auto;
 }
 
 .main-style {
-    margin: 0.5rem auto;
-    padding: 0.25rem;
-    background-color: whitesmoke;
-    border-radius: 5px;
-    width: fit-content;
-    -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
+  margin: 0.5rem auto;
+  padding: 0.25rem;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  width: fit-content;
+  -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
 }
 
 .book-entry {
-    width: 100%;
+  width: 100%;
 }
 
 .title {
-    color: #101010;
-    margin-top: 2rem;
+  color: #101010;
+  margin-top: 2rem;
 }
