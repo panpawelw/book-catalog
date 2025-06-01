@@ -53,7 +53,7 @@
   </form>
 </div>
 <div class='main-style database-selection'>
-  <p>Select database type:</p>
+  <p>Select the database type:</p>
   <input type='radio' id='memory-database' name='database' value='memory' checked>
   <label for='memory-database'>Memory</label>
   <input type='radio' id='mysql-database' name='database' value='mysql'>

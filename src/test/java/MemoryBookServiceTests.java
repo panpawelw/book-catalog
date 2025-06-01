@@ -33,7 +33,7 @@ public class MemoryBookServiceTests {
   @Test
   public void updateBookTest() {
     assertTrue(service.updateBook(1, TEST_BOOK));
-    assertEquals(service.getBookById(1), TEST_BOOK);
+    assertEquals(TEST_BOOK, service.getBookById(1));
   }
 
   @Test
@@ -44,7 +44,7 @@ public class MemoryBookServiceTests {
 
   @Test
   public void getBookByIdTest() {
-    assertEquals(service.getBookById(3), GET_BOOK_BY_ID_TEST_BOOK);
+    assertEquals(GET_BOOK_BY_ID_TEST_BOOK, service.getBookById(3));
   }
 
   @Test

@@ -47,7 +47,7 @@ public class BookControllerIT {
 
   MockMvc mockMvc;
 
-  String chooseService;
+  final String chooseService;
 
   @Autowired
   private BookController controller;

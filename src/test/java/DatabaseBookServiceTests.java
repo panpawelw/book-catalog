@@ -73,7 +73,7 @@ public class DatabaseBookServiceTests {
   public void getBookByIdTest() {
     when(jdbcTemplate.queryForObject(eq("SELECT * FROM books WHERE id=?"),
         ArgumentMatchers.<RowMapper<Book>>any(),eq(1L))).thenReturn(TEST_BOOK);
-    assertEquals(service.getBookById(1), TEST_BOOK);
+    assertEquals(TEST_BOOK, service.getBookById(1));
     verify(jdbcTemplate, times(1)).queryForObject(eq(
         "SELECT * FROM books WHERE id=?"), ArgumentMatchers.<RowMapper<Book>>any(),eq(1L));
   }

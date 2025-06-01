@@ -18,7 +18,6 @@ import java.io.PrintStream;
 
 import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -68,7 +67,7 @@ public class BookControllerTests {
   @Test
   public void getBookByIdTest() {
     when(service.getBookById(3)).thenReturn(TEST_BOOK);
-    assertEquals(bookController.getBookById(3), TEST_BOOK);
+    assertEquals(TEST_BOOK, bookController.getBookById(3));
     verify(service).getBookById(3);
   }
 

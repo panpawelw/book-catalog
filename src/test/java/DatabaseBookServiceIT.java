@@ -51,7 +51,7 @@ public class DatabaseBookServiceIT {
   public void updateBookTest() {
     service.updateBook(1, TEST_BOOK);
     TEST_BOOK.setId(1);
-    assertEquals(service.getBookById(1), TEST_BOOK);
+    assertEquals(TEST_BOOK, service.getBookById(1));
   }
 
   @Test(expected = EmptyResultDataAccessException.class)
@@ -62,6 +62,6 @@ public class DatabaseBookServiceIT {
 
   @Test
   public void getBookByIdTest() {
-    assertEquals(service.getBookById(3), GET_BOOK_BY_ID_TEST_BOOK);
+    assertEquals(GET_BOOK_BY_ID_TEST_BOOK, service.getBookById(3));
   }
 }
