@@ -11,8 +11,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -86,7 +86,7 @@ public class BookControllerTests {
     when(service.addBook(any())).thenReturn(false);
     bookController.addBook(TEST_BOOK.getIsbn(), TEST_BOOK.getTitle(), TEST_BOOK.getAuthor(),
         TEST_BOOK.getPublisher(), TEST_BOOK.getType(), request, response);
-    assertEquals("Error adding book!\r\n", outContent.toString());
+    assertEquals("Error adding book!", outContent.toString().trim());
     verify(service).addBook(any());
   }
 
@@ -102,7 +102,7 @@ public class BookControllerTests {
   public void updateBookWithIncorrectParameterTest() {
     when(service.updateBook(1, TEST_BOOK)).thenReturn(false);
     bookController.updateBook(1, TEST_BOOK);
-    assertEquals("Error updating book!\r\n", outContent.toString());
+    assertEquals("Error updating book!", outContent.toString().trim());
     verify(service).updateBook(1, TEST_BOOK);
   }
 
@@ -118,7 +118,7 @@ public class BookControllerTests {
   public void deleteBookWithIncorrectParameterTest() {
     when(service.deleteBook(1)).thenReturn(false);
     bookController.deleteBook(1);
-    assertEquals("Error deleting book!\r\n", outContent.toString());
+    assertEquals("Error deleting book!", outContent.toString().trim());
     verify(service).deleteBook(1);
   }
 
