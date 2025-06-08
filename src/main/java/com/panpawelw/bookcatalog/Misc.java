@@ -24,6 +24,15 @@ public class Misc {
 
   public static Map<Long, Book> getBooksAsMap() {
     Map<Long, Book> booksAsMap = new HashMap<>();
+    return copyBookListToMap(booksAsMap);
+  }
+
+  public static Map<Long, Book> getBooksAsMap(Map<Long, Book> booksAsMap) {
+    booksAsMap.clear();
+    return copyBookListToMap(booksAsMap);
+  }
+
+  public static Map<Long, Book> copyBookListToMap(Map<Long, Book> booksAsMap) {
     for (Book book : BOOK_LIST) {
       booksAsMap.put(book.getId(), book);
     }

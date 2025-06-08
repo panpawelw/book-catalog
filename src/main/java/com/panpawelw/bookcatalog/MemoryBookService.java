@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
+
 @Service
 public class MemoryBookService implements BookService {
 
@@ -17,11 +19,8 @@ public class MemoryBookService implements BookService {
   }
 
   public void populateDatabase() {
-    nextId = 0;
-    bookList.clear();
-    for (Book book : Misc.BOOK_LIST) {
-      bookList.put(getNextFreeId(), book);
-    }
+    getBooksAsMap(bookList);
+    nextId = bookList.size();
   }
 
   private long getNextFreeId() {
