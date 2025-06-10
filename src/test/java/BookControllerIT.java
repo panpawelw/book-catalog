@@ -64,7 +64,7 @@ public class BookControllerIT {
   @Before
   public void setup() throws Exception {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    this.BOOK_LIST = Misc.getBooksAsMap();
+    this.BOOK_LIST = Utils.getBooksAsMap();
     mockMvc.perform(get(chooseService)).andExpect(status().isOk());
     mockMvc.perform(get("/resetdatabase")).andExpect(status().isOk());
   }

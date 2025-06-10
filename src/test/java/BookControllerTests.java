@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
+import static com.panpawelw.bookcatalog.Utils.getBooksAsMap;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 

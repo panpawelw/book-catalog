@@ -1,6 +1,6 @@
 import com.panpawelw.bookcatalog.Book;
 import com.panpawelw.bookcatalog.DatabaseBookService;
-import com.panpawelw.bookcatalog.Misc;
+import com.panpawelw.bookcatalog.Utils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class DatabaseBookServiceIT {
 
   @Test
   public void getBooksTest() {
-    assertEquals(service.getBooks(), Misc.getBooksAsMap());
+    assertEquals(service.getBooks(), Utils.getBooksAsMap());
   }
 
   @Test

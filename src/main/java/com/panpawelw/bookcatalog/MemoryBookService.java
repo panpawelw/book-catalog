@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
+import static com.panpawelw.bookcatalog.Utils.getBooksAsMap;
 
 @Service
 public class MemoryBookService implements BookService {

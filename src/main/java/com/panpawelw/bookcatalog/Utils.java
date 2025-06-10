@@ -3,7 +3,7 @@ package com.panpawelw.bookcatalog;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Misc {
+public class Utils {
 
   public static final Book[] BOOK_LIST = {
       new Book(1, "9788324631766", "Core Java Volume I", "Cay S. Horstmann",

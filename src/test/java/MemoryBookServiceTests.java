@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
-import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
+import static com.panpawelw.bookcatalog.Utils.getBooksAsMap;
 import static org.junit.Assert.*;
 
 public class MemoryBookServiceTests {

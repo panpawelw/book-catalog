@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.panpawelw.bookcatalog.Misc.getBooksAsMap;
+import static com.panpawelw.bookcatalog.Utils.getBooksAsMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;

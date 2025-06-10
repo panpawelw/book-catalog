@@ -23,7 +23,7 @@ public class DatabaseBookService implements BookService {
         "NULL, isbn VARCHAR(255), title VARCHAR(255), author VARCHAR(255), publisher VARCHAR" +
         "(255), type VARCHAR(255), PRIMARY KEY(id));");
 
-    for (Book book : Misc.BOOK_LIST) {
+    for (Book book : Utils.BOOK_LIST) {
       this.addBook(book);
     }
   }
