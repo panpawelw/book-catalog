@@ -3,6 +3,9 @@ package com.panpawelw.bookcatalog;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ */
 public class Utils {
 
   public static final Book[] BOOK_LIST = {
@@ -22,16 +25,34 @@ public class Utils {
           "Eric Evans", "Addison - Wesley Professional", "programming")
   };
 
+  /**
+   * Copies the content of the book array to a new map.
+   *
+   * @return  map containing books.
+   */
   public static Map<Long, Book> getBooksAsMap() {
     Map<Long, Book> booksAsMap = new HashMap<>();
     return copyBookListToMap(booksAsMap);
   }
 
+  /**
+   * Copies the content of the book array when the map is given as a parameter.
+   * The map is emptied before copying.
+   *
+   * @param booksAsMap  map to be emptied and to copy books into.
+   * @return            map containing books.
+   */
   public static Map<Long, Book> getBooksAsMap(Map<Long, Book> booksAsMap) {
     booksAsMap.clear();
     return copyBookListToMap(booksAsMap);
   }
 
+  /**
+   * Copies the content of Book array to a map.
+   *
+   * @param booksAsMap  map to copy books into.
+   * @return            map containing books.
+   */
   public static Map<Long, Book> copyBookListToMap(Map<Long, Book> booksAsMap) {
     for (Book book : BOOK_LIST) {
       booksAsMap.put(book.getId(), book);
