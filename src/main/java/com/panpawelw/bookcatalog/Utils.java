@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Utility class that provides a list of books to serve both as an example and for testing purposes.
+ * It also contains several methods helping with populating the database.
  *
+ * @author panpawelw
  */
 public class Utils {
 
